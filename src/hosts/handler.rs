@@ -13,10 +13,10 @@ async fn get_all_hosts(pool: web::Data<PgPool>) -> Option<HttpResponse> {
 }
 
 #[post("/")]
-async fn insert_new_hosts(
+async fn insert_new_host(
   payload: web::Json<requests::HostsRequest>,
   pool: web::Data<PgPool>,
-) -> Option<HttpResponse> {
+) -> HttpResponse {
   use crate::schema::hosts::dsl::*;
   let conn = &pool.get().unwrap();
   let data = (
@@ -30,10 +30,10 @@ async fn insert_new_hosts(
     .execute(conn)
     .unwrap();
 
-  Some(HttpResponse::Ok().body(format!("Affected Rows: {}", result)))
+  HttpResponse::Ok().body(format!("Affected Rows: {}", result))
 }
 
 /// Routing for hosts
 pub fn route(config: &mut web::ServiceConfig) {
-  config.service(get_all_hosts);
+  config.service(get_all_hosts).service(insert_new_host);
 }
