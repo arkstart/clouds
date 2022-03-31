@@ -1,24 +1,19 @@
-use actix_web::{get, web, App, HttpServer, Responder};
+use actix_web::{web, App, HttpServer};
 use dotenv::dotenv;
 use std::env;
 
-#[get("/hello/{name}")]
-async fn greet(name: web::Path<String>) -> impl Responder {
-    format!("Hello!")
-}
+mod hosts;
 
 async fn serve_web(address: String) -> std::io::Result<()> {
-    HttpServer::new(|| {
-        App::new()
-            .route("/hello", web::get().to(|| async { "Hello World!" }))
-            .service(greet)
+    HttpServer::new(move || {
+        App::new().service(web::scope("/hosts").configure(hosts::handler::route))
     })
     .bind(address)?
     .run()
     .await
-} 
+}
 
-#[actix_web::main] 
+#[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv().ok();
 
