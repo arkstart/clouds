@@ -12,7 +12,7 @@ mod schema;
 async fn serve_web(address: String, pool: db::PgPool) -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
-            .app_data(pool.clone())
+            .app_data(web::Data::new(pool.clone()))
             .service(web::scope("/hosts").configure(hosts::handler::route))
     })
     .bind(address)?
