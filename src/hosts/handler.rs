@@ -1,6 +1,6 @@
-use actix_web::{HttpResponse, web, get, post };
+use actix_web::{HttpResponse, web, get};
 
-#[post("/")]
+#[get("/")]
 async fn greet() -> Option<HttpResponse> {
     Some(HttpResponse::Ok().body("Hello! from stan host"))
 }

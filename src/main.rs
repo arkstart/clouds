@@ -2,11 +2,14 @@ use actix_web::{web, App, HttpServer};
 use dotenv::dotenv;
 use std::env;
 
+mod db;
 mod hosts;
 
-async fn serve_web(address: String) -> std::io::Result<()> {
+async fn serve_web(address: String, pool: db::PgPool) -> std::io::Result<()> {
     HttpServer::new(move || {
-        App::new().service(web::scope("/hosts").configure(hosts::handler::route))
+        App::new()
+            .app_data(pool.clone())
+            .service(web::scope("/hosts").configure(hosts::handler::route))
     })
     .bind(address)?
     .run()
@@ -21,5 +24,7 @@ async fn main() -> std::io::Result<()> {
     let port = &env::var("PORT").unwrap_or("8080".to_string());
     let address = format!("{}:{}", host, port);
 
-    serve_web(address).await
+    let pool = db::connect_pool();
+
+    serve_web(address, pool).await
 }
