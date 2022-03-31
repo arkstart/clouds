@@ -18,19 +18,31 @@ async fn insert_new_host(
   pool: web::Data<PgPool>,
 ) -> HttpResponse {
   use crate::schema::hosts::dsl::*;
-  let conn = &pool.get().unwrap();
-  let data = (
-    &name.eq(&payload.name),
-    &description.eq(&payload.description),
-    &url.eq(&payload.url),
-  );
 
-  let result = diesel::insert_into(hosts)
-    .values(data)
-    .execute(conn)
-    .unwrap();
+  // TODO: Create response struct consist of message: String
+  let response_body: String;
+  let host_existence = models::Hosts::check_existing(payload.name.clone(), pool.clone()).unwrap();
 
-  HttpResponse::Ok().body(format!("Affected Rows: {}", result))
+  match host_existence {
+    true => response_body = format!("Host already exist"),
+    false => {
+      let conn = &pool.get().unwrap();
+
+      let data = (
+        &name.eq(&payload.name),
+        &description.eq(&payload.description),
+        &url.eq(&payload.url),
+      );
+      let result = diesel::insert_into(hosts)
+        .values(data)
+        .execute(conn)
+        .unwrap();
+
+      response_body = format!("Affected Rows: {}", result);
+    }
+  }
+
+  HttpResponse::Ok().body(response_body)
 }
 
 /// Routing for hosts
