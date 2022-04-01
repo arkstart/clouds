@@ -1,12 +1,15 @@
 use crate::db::PgPool;
-use crate::host::model;
+use crate::product::model;
+use diesel::QueryResult;
+use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
+use crate::schema::products;
 
 use actix_web::{get, web, HttpResponse};
 
 #[get("/")]
 async fn get_all_product(pool: web::Data<PgPool>) -> HttpResponse {
-  let host_list = model::Host::get_all(pool);
-  match host_list {
+  let product_list = model::Product::get_all(pool);
+  match product_list {
     Ok(list) => HttpResponse::Ok().json(list),
     Err(e) => HttpResponse::Ok().body(format!("Error {:?}:", e)),
   }
