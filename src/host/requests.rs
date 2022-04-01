@@ -1,8 +1,7 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Queryable, Debug, Clone, Deserialize, Serialize)]
-pub struct Hosts {
-  pub id: i32,
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct HostRequest {
   pub name: String,
   pub description: String,
   pub url: String,
