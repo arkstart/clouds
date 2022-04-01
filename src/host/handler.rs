@@ -1,5 +1,5 @@
 use crate::db::PgPool;
-use crate::hosts::{models, requests};
+use crate::host::{models, requests};
 
 use actix_web::{get, post, web, HttpResponse};
 

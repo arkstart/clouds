@@ -1,5 +1,5 @@
 use crate::db::PgPool;
-use crate::hosts::requests::HostRequest;
+use crate::host::requests::HostRequest;
 use crate::schema::hosts;
 use crate::schema::hosts::dsl::*;
 use actix_web::web;
