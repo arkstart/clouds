@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS products (
     name VARCHAR NOT NULL,
     description VARCHAR NOT NULL,
     url VARCHAR NOT NULL,
-    free BOOLEAN,
-    pricing VARCHAR,
+    free BOOLEAN NOT NULL,
+    pricing VARCHAR NOT NULL,
     FOREIGN KEY (hosts_id) REFERENCES hosts (id)
 )
