@@ -4,7 +4,7 @@ use crate::host::{model, request};
 use actix_web::{get, post, web, HttpResponse};
 
 #[get("/")]
-async fn get_all_hosts(pool: web::Data<PgPool>) -> HttpResponse {
+async fn get_all_host(pool: web::Data<PgPool>) -> HttpResponse {
   let host_list = model::Host::get_all(pool);
   match host_list {
     Ok(list) => HttpResponse::Ok().json(list),
@@ -37,7 +37,7 @@ async fn insert_new_host(
 /// Routing for hosts
 pub fn route(config: &mut web::ServiceConfig) {
   config
-    .service(get_all_hosts)
+    .service(get_all_host)
     .service(get_host)
     .service(insert_new_host);
 }
