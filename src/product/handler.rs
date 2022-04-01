@@ -1,7 +1,7 @@
 use crate::db::PgPool;
-use crate::host::{model, request};
+use crate::host::model;
 
-use actix_web::{get, post, web, HttpResponse};
+use actix_web::{get, web, HttpResponse};
 
 #[get("/")]
 async fn get_all_product(pool: web::Data<PgPool>) -> HttpResponse {
