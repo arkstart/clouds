@@ -4,7 +4,7 @@ use crate::product::request::AddProductRequest;
 use crate::schema::products::dsl::*;
 use actix_web::web;
 use diesel::QueryResult;
-use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
+use diesel::{ExpressionMethods, RunQueryDsl};
 
 use serde::{Deserialize, Serialize};
 
