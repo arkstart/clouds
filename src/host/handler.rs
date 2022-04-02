@@ -1,5 +1,5 @@
 use crate::db::PgPool;
-use crate::error::{ErrorResponse, ErrorType};
+use crate::error::{ErrResponse, ErrType};
 use crate::host::{model, request};
 use actix_web::{get, post, web, HttpResponse};
 
@@ -8,7 +8,7 @@ async fn get_all_host(pool: web::Data<PgPool>) -> HttpResponse {
   let host_list = model::Host::get_all(pool);
   match host_list {
     Ok(list) => HttpResponse::Ok().json(list),
-    Err(e) => ErrorResponse::new(ErrorType::InternalServerError, e.to_string()),
+    Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),
   }
 }
 
@@ -17,7 +17,7 @@ async fn get_host(path: web::Path<String>, pool: web::Data<PgPool>) -> HttpRespo
   let host_name = path.into_inner();
   match model::Host::get_one(host_name, pool) {
     Ok(host) => HttpResponse::Ok().json(host),
-    Err(_) => ErrorResponse::new_message(ErrorType::BadRequest, "Host name not found".to_string()),
+    Err(_) => ErrResponse::new_message(ErrType::BadRequest, "Host name not found".to_string()),
   }
 }
 
@@ -28,7 +28,7 @@ async fn insert_new_host(
 ) -> HttpResponse {
   match model::Host::add(req, pool) {
     Ok(res) => HttpResponse::Ok().body(format!("Affected Rows: {}", res)),
-    Err(e) => ErrorResponse::new(ErrorType::InternalServerError, e.to_string()),
+    Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),
   }
 }
 
