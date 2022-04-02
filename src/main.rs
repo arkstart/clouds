@@ -9,6 +9,7 @@ mod db;
 mod host;
 mod product;
 mod schema;
+mod error;
 
 async fn serve_web(address: String, pool: db::PgPool) -> std::io::Result<()> {
     HttpServer::new(move || {

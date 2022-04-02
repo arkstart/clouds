@@ -1,4 +1,5 @@
 use crate::db::PgPool;
+use crate::error::{ErrResponse, ErrType};
 use crate::host::model::Host;
 use crate::product::model;
 use crate::product::request;
@@ -10,7 +11,7 @@ async fn get_all_product(pool: web::Data<PgPool>) -> HttpResponse {
   let product_list = model::Product::get_all(pool);
   match product_list {
     Ok(list) => HttpResponse::Ok().json(list),
-    Err(e) => HttpResponse::Ok().body(format!("Error {:?}:", e)),
+    Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),
   }
 }
 
@@ -25,10 +26,10 @@ async fn insert_new_product(
     let result = model::Product::add(id, req.clone(), pool);
     match result {
       Ok(res) => HttpResponse::Ok().body(format!("Affected Row(s): {}", res)),
-      Err(e) => HttpResponse::Ok().body(format!("Error {:?}:", e)),
+      Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),
     }
   } else {
-    HttpResponse::Ok().body(format!("host_name not found!"))
+    ErrResponse::new_message(ErrType::BadRequest, "host_name not found".to_string())
   }
 }
 
