@@ -16,13 +16,19 @@ async fn get_all_product(pool: web::Data<PgPool>) -> HttpResponse {
 
 #[post("/")]
 async fn insert_new_product(
-  req: web::Json<request::ProductRequest>,
+  req: web::Json<request::AddProductRequest>,
   pool: web::Data<PgPool>,
 ) -> HttpResponse {
   let host_id = Host::get_id(req.host_name.clone(), pool.clone());
-  match host_id {
-    Ok(id) => HttpResponse::Ok().body(format!("The id is {:?}:", id)),
-    Err(e) => HttpResponse::Ok().body(format!("Error {:?}:", e)),
+
+  if let Ok(id) = host_id {
+    let result = model::Product::add(id, req.clone(), pool);
+    match result {
+      Ok(res) => HttpResponse::Ok().body(format!("Affected Row(s): {}", res)),
+      Err(e) => HttpResponse::Ok().body(format!("Error {:?}:", e)),
+    }
+  } else {
+    HttpResponse::Ok().body(format!("host_name not found!"))
   }
 }
 

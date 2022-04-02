@@ -1,6 +1,7 @@
 use crate::db::PgPool;
 use crate::schema::products;
-// use crate::schema::products::dsl::*;
+use crate::product::request::AddProductRequest;
+use crate::schema::products::dsl::*;
 use actix_web::web;
 use diesel::QueryResult;
 use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
@@ -22,6 +23,19 @@ impl Product {
   pub fn get_all(pool: web::Data<PgPool>) -> QueryResult<Vec<Product>> {
     let conn = &pool.get().unwrap();
     products::table.load::<Product>(conn)
+  }
+
+  pub fn add(host_id: i32, req:AddProductRequest, pool: web::Data<PgPool>) -> QueryResult<usize> {
+    let conn = &pool.get().unwrap();
+    let data = (
+      &hosts_id.eq(&host_id),
+      &name.eq(&req.name),
+      &description.eq(&req.description),
+      &url.eq(&req.url),
+      &free.eq(&req.free),
+      &pricing.eq(&req.pricing),
+    );
+    diesel::insert_into(products).values(data).execute(conn)
   }
 }
 
