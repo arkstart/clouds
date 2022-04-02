@@ -13,9 +13,9 @@ pub struct Product {
   pub hosts_id: i32,
   pub name: String,
   pub description: String,
-  pub url: String,
-  pub free: bool,
-  pub pricing: String,
+  pub url: Option<String>,
+  pub free: Option<bool>,
+  pub pricing: Option<String>,
 }
 
 impl Product {
@@ -23,4 +23,13 @@ impl Product {
     let conn = &pool.get().unwrap();
     products::table.load::<Product>(conn)
   }
+}
+
+#[derive(Queryable, Debug, Clone, Deserialize, Serialize)]
+pub struct ProductLimit {
+  pub id: i32,
+  pub products_id: i32,
+  pub build_limit: Option<String>,
+  pub bandwith_limit: Option<String>,
+  pub site_limit: Option<String>,
 }
