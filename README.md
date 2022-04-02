@@ -13,8 +13,8 @@
 ```
 
 ## Product
-1. GET /api/host -> Get All Host
-2. POST /api/host -> Add New Host
+1. GET /api/product -> Get All Product
+2. POST /api/product -> Add New Product
 * Body
 ```
     host_name: String,*
