@@ -27,12 +27,18 @@ impl Host {
     hosts.filter(&name.eq(host_name)).first::<Host>(conn)
   }
 
+  pub fn get_id(host_name: String, pool: web::Data<PgPool>) -> QueryResult<i32> {
+    let conn = &pool.get().unwrap();
+    hosts.filter(&name.eq(host_name)).select(id).first::<i32>(conn)
+  }
+
   pub fn add(req: web::Json<HostRequest>, pool: web::Data<PgPool>) -> QueryResult<usize> {
     let conn = &pool.get().unwrap();
 
     let data = (
       &name.eq(&req.name),
       &description.eq(&req.description),
+      &url.eq(&req.url),
       &url.eq(&req.url),
     );
     diesel::insert_into(hosts).values(data).execute(conn)

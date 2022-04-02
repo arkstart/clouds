@@ -1,22 +1,26 @@
-Missing Fields
+# Endpoints
+* Note: `*` means required
+## Host
+1. GET /api/host -> Get All Host
+2. GET /api/host/{host_name} -> Get One Host
+* `{host_name}` Should be string
+3. POST /api/host -> Add New Host
+* Body
+```
+    name: String,  *
+    description: String,  *
+    url: String,  *
+```
 
--- Your SQL goes here
-CREATE TABLE IF NOT EXISTS products_limit (
-    id SERIAL PRIMARY KEY,
-    products_id integer NOT NULL,
-    build_limit VARCHAR,
-    bandwith_limit VARCHAR,
-    site_limit VARCHAR,
-    FOREIGN KEY (products_id) REFERENCES products (id)
-)
-
--- Your SQL goes here
-CREATE TABLE IF NOT EXISTS domain_benefits (
-    id SERIAL PRIMARY KEY,
-    products_id integer NOT NULL,
-    https_support BOOLEAN NOT NULL,
-    free_domain BOOLEAN NOT NULL,
-    custom_domain BOOLEAN NOT NULL,
-    domain_extension VARCHAR NOT NULL,
-    FOREIGN KEY (products_id) REFERENCES products (id)
-)
+## Product
+1. GET /api/product -> Get All Product
+2. POST /api/product -> Add New Product
+* Body
+```
+    host_name: String,*
+    name: String,*
+    description: String,*
+    url: String,*
+    free: Boolean,
+    pricing: String,
+```
