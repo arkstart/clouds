@@ -5,6 +5,7 @@ use serde::Serialize;
 pub enum ErrType {
   BadRequest,
   InternalServerError,
+  Unauthorized
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -39,6 +40,7 @@ impl ErrResponse {
     match error_type {
       ErrType::BadRequest => StatusCode::BAD_REQUEST,
       ErrType::InternalServerError => StatusCode::INTERNAL_SERVER_ERROR,
+      ErrType::Unauthorized => StatusCode::UNAUTHORIZED,
     }
   }
 
@@ -46,6 +48,7 @@ impl ErrResponse {
     match error_type {
       ErrType::BadRequest => "Bad Request".to_string(),
       ErrType::InternalServerError => "Internal Server Error".to_string(),
+      ErrType::Unauthorized => "Unauthorized".to_string(),
     }
   }
 
@@ -53,6 +56,7 @@ impl ErrResponse {
     match error_type {
       ErrType::BadRequest => HttpResponse::BadRequest().json(self),
       ErrType::InternalServerError => HttpResponse::InternalServerError().json(self),
+      ErrType::Unauthorized => HttpResponse::Unauthorized().json(self)
     }
   }
 }

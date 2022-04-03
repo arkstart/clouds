@@ -32,14 +32,14 @@ impl Host {
     hosts.filter(&name.eq(host_name)).select(id).first::<i32>(conn)
   }
 
-  pub fn add(req: web::Json<HostRequest>, pool: web::Data<PgPool>) -> QueryResult<usize> {
+  pub fn add(body: web::Json<HostRequest>, pool: web::Data<PgPool>) -> QueryResult<usize> {
     let conn = &pool.get().unwrap();
 
     let data = (
-      &name.eq(&req.name),
-      &description.eq(&req.description),
-      &url.eq(&req.url),
-      &url.eq(&req.url),
+      &name.eq(&body.name),
+      &description.eq(&body.description),
+      &url.eq(&body.url),
+      &url.eq(&body.url),
     );
     diesel::insert_into(hosts).values(data).execute(conn)
   }
