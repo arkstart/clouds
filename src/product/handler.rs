@@ -45,7 +45,7 @@ async fn insert_new_product(
   }
 }
 
-/// Routing for hosts
+/// Routing for product
 pub fn route(config: &mut web::ServiceConfig) {
   config.service(get_all_product).service(insert_new_product);
 }
