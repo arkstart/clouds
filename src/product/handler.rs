@@ -1,5 +1,5 @@
 use crate::db::PgPool;
-use crate::error::{ErrResponse, ErrType};
+use crate::lib::error::{ErrResponse, ErrType};
 use crate::host::model::Host;
 use crate::product::model;
 use crate::product::request;
