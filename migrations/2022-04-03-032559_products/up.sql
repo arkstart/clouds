@@ -4,8 +4,6 @@ CREATE TABLE IF NOT EXISTS products (
     hosts_id integer NOT NULL,
     name VARCHAR NOT NULL,
     description VARCHAR NOT NULL,
-    url VARCHAR,
-    free BOOLEAN,
-    pricing VARCHAR,
+    url VARCHAR NOT NULL,
     FOREIGN KEY (hosts_id) REFERENCES hosts (id)
 )

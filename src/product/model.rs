@@ -14,9 +14,7 @@ pub struct Product {
   pub hosts_id: i32,
   pub name: String,
   pub description: String,
-  pub url: Option<String>,
-  pub free: Option<bool>,
-  pub pricing: Option<String>,
+  pub url: String,
 }
 
 impl Product {
@@ -32,8 +30,6 @@ impl Product {
       &name.eq(&req.name),
       &description.eq(&req.description),
       &url.eq(&req.url),
-      &free.eq(&req.free),
-      &pricing.eq(&req.pricing),
     );
     diesel::insert_into(products).values(data).execute(conn)
   }
