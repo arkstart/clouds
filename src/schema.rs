@@ -13,9 +13,7 @@ table! {
         hosts_id -> Int4,
         name -> Varchar,
         description -> Varchar,
-        url -> Nullable<Varchar>,
-        free -> Nullable<Bool>,
-        pricing -> Nullable<Varchar>,
+        url -> Varchar,
     }
 }
 
