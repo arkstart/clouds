@@ -14,6 +14,8 @@
 
 ## B. Product
 1. GET /api/product -> Get All Product
+2. GET /api/product/{product_name} -> Get One Product
+* `{product_name}` Should be string
 2. POST /api/product -> Add New Product
 * Body
 ```
