@@ -15,6 +15,13 @@ pub struct Product {
   pub name: String,
   pub description: String,
   pub url: String,
+  pub build_limit: Option<String>,
+  pub bandwith_limit: Option<String>,
+  pub site_limit: Option<String>,
+  pub https_support: Option<bool>,
+  pub free_domain: Option<bool>,
+  pub custom_domain: Option<bool>,
+  pub domain_extension: Option<bool>,
 }
 
 impl Product {
@@ -40,6 +47,9 @@ impl Product {
       &name.eq(&body.name),
       &description.eq(&body.description),
       &url.eq(&body.url),
+      &build_limit.eq(&body.build_limit),
+      &bandwith_limit.eq(&body.bandwith_limit),
+      &site_limit.eq(&body.site_limit),
     );
     diesel::insert_into(products).values(data).execute(conn)
   }
