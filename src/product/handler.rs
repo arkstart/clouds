@@ -14,6 +14,15 @@ async fn get_all_product(pool: web::Data<PgPool>) -> HttpResponse {
   }
 }
 
+#[get("/{product_name}")]
+async fn get_product(path: web::Path<String>, pool: web::Data<PgPool>) -> HttpResponse {
+  let product_name = path.into_inner();
+  match model::Product::get_one(product_name, pool) {
+    Ok(product) => HttpResponse::Ok().json(product),
+    Err(_) => ErrResponse::new_message(ErrType::BadRequest, "Product name not found".to_string()),
+  }
+}
+
 #[post("/")]
 async fn insert_new_product(
   req: HttpRequest,
@@ -80,6 +89,7 @@ async fn insert_new_product_limit(
 pub fn route(config: &mut web::ServiceConfig) {
   config
     .service(get_all_product)
+    .service(get_product)
     .service(insert_new_product)
     .service(insert_new_product_limit);
 }

@@ -28,6 +28,11 @@ impl Product {
     products.filter(&name.eq(product_name)).select(id).first::<i32>(conn)
   }
 
+  pub fn get_one(product_name: String, pool: web::Data<PgPool>) -> QueryResult<Product> {
+    let conn = &pool.get().unwrap();
+    products.filter(&name.eq(product_name)).first::<Product>(conn)
+  }
+
   pub fn add(host_id: i32, body:AddProductRequest, pool: web::Data<PgPool>) -> QueryResult<usize> {
     let conn = &pool.get().unwrap();
     let data = (
