@@ -21,7 +21,7 @@ pub struct Product {
   pub https_support: Option<bool>,
   pub free_domain: Option<bool>,
   pub custom_domain: Option<bool>,
-  pub domain_extension: Option<bool>,
+  pub domain_extension: Option<String>,
 }
 
 impl Product {
@@ -50,6 +50,10 @@ impl Product {
       &build_limit.eq(&body.build_limit),
       &bandwith_limit.eq(&body.bandwith_limit),
       &site_limit.eq(&body.site_limit),
+      &https_support.eq(&body.https_support),
+      &free_domain.eq(&body.free_domain),
+      &custom_domain.eq(&body.custom_domain),
+      &domain_extension.eq(&body.domain_extension)
     );
     diesel::insert_into(products).values(data).execute(conn)
   }

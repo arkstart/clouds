@@ -12,5 +12,5 @@ pub struct AddProductRequest {
   pub https_support: Option<bool>,
   pub free_domain: Option<bool>,
   pub custom_domain: Option<bool>,
-  pub domain_extension: Option<bool>,
+  pub domain_extension: Option<String>,
 }
