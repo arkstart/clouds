@@ -54,7 +54,7 @@ async fn insert_new_product(
   }
 }
 
-#[post("/limit")]
+#[post("/limits")]
 async fn insert_new_product_limit(
   req: HttpRequest,
   body: web::Json<product_limit::request::AddProductLimitRequest>,
