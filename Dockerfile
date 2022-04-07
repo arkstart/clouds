@@ -5,9 +5,9 @@ FROM rust:1.56 as builder
 COPY ./ ./
 
 # Migration
-# RUN cargo install diesel_cli --no-default-features --features postgres
-# RUN diesel setup
-# RUN diesel migration run
+RUN cargo install diesel_cli --no-default-features --features postgres
+RUN diesel setup
+RUN diesel migration run
 
 # Build your program for release
 RUN cargo build --release --all-features
