@@ -7,7 +7,7 @@ pub struct AddProductRequest {
   pub description: String,
   pub url: String,
   pub build_limit: Option<String>,
-  pub bandwith_limit: Option<String>,
+  pub bandwidth_limit: Option<String>,
   pub site_limit: Option<String>,
   pub https_support: Option<bool>,
   pub free_domain: Option<bool>,

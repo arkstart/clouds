@@ -23,15 +23,11 @@
     name: String,*
     description: String,*
     url: String,*
-    free: Boolean,
-    pricing: String,
-```
-
-### B.1 Product Limit
-1. Post /api/product/limit -> Insert new Product Limit
-```
-    product_name: String,*
     build_limit: String,
     bandwith_limit: String,
     site_limit: String,
+    https_support: Bool,
+    free_domain: Bool,
+    custom_domain: Bool,
+    domain_extension: String
 ```

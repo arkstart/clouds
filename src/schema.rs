@@ -15,7 +15,7 @@ table! {
         description -> Varchar,
         url -> Varchar,
         build_limit -> Nullable<Varchar>,
-        bandwith_limit -> Nullable<Varchar>,
+        bandwidth_limit -> Nullable<Varchar>,
         site_limit -> Nullable<Varchar>,
         https_support -> Nullable<Bool>,
         free_domain -> Nullable<Bool>,
