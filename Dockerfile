@@ -7,12 +7,8 @@ ENV DATABASE_URL=$DATABASE_URL
 # 2. Copy the files in your machine to the Docker image
 COPY ./ ./
 
-
-
 # Migration
 RUN cargo install diesel_cli --no-default-features --features postgres
-RUN diesel setup
-RUN diesel migration run
 
 # Build your program for release
 RUN cargo build --release --all-features
