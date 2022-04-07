@@ -9,8 +9,6 @@ COPY ./ ./
 
 # Migration
 RUN cargo install diesel_cli --no-default-features --features postgres
-RUN diesel setup
-RUN diesel migration run
 
 # Build your program for release
 RUN cargo build --release --all-features
