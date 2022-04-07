@@ -1,8 +1,13 @@
 # 1. This tells docker to use the Rust official image
 FROM rust:1.56 as builder
 
+ARG DATABASE_URL
+ENV DATABASE_URL=$DATABASE_URL
+
 # 2. Copy the files in your machine to the Docker image
 COPY ./ ./
+
+
 
 # Migration
 RUN cargo install diesel_cli --no-default-features --features postgres
