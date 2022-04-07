@@ -13,4 +13,4 @@ COPY ./ ./
 RUN cargo build --release --all-features
 
 # Run the binary
-CMD ["./target/release/shortenurl"]
+CMD ["./target/release/clouds"]
