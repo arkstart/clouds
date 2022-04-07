@@ -16,7 +16,7 @@ async fn serve_web(address: String, pool: db::PgPool) -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(pool.clone()))
-            .route("/api/migrate", web::post().to(migration::migrate))
+            .route("/api/migration", web::post().to(migration::migrate))
             .service(web::scope("/api/hosts").configure(host::handler::route))
             .service(web::scope("/api/products").configure(product::handler::route))
     })
