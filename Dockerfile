@@ -13,4 +13,4 @@ COPY ./ ./
 RUN cargo build --release --all-features
 
 # Run the binary
-CMD ["cargo install diesel_cli --no-default-features --features postgres && diesel setup && diesel migration run &&  ./target/release/shortenurl"]
+CMD ["./target/release/shortenurl"]
