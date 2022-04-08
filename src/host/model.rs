@@ -39,7 +39,6 @@ impl Host {
       &name.eq(&body.name),
       &description.eq(&body.description),
       &url.eq(&body.url),
-      &url.eq(&body.url),
     );
     diesel::insert_into(hosts).values(data).execute(conn)
   }
