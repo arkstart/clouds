@@ -2,8 +2,13 @@ table! {
     hosts (id) {
         id -> Int4,
         name -> Varchar,
-        description -> Varchar,
-        url -> Varchar,
+        always_free -> Nullable<Bool>,
+        free_tier -> Nullable<Bool>,
+        frontend_support -> Nullable<Bool>,
+        backend_support -> Nullable<Bool>,
+        database_support -> Nullable<Bool>,
+        description -> Nullable<Varchar>,
+        url -> Nullable<Varchar>,
     }
 }
 
