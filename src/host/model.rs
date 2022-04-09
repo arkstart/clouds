@@ -12,8 +12,13 @@ use serde::{Deserialize, Serialize};
 pub struct Host {
   pub id: i32,
   pub name: String,
-  pub description: String,
-  pub url: String,
+  pub always_free: Option<bool>,
+  pub free_tier: Option<bool>,
+  pub frontend_support: Option<bool>,
+  pub backend_support: Option<bool>,
+  pub database_support: Option<bool>,
+  pub description: Option<String>,
+  pub url: Option<String>,
 }
 
 impl Host {
@@ -39,6 +44,11 @@ impl Host {
       &name.eq(&body.name),
       &description.eq(&body.description),
       &url.eq(&body.url),
+      &always_free.eq(&body.always_free),
+      &free_tier.eq(&body.free_tier),
+      &frontend_support.eq(&body.frontend_support),
+      &backend_support.eq(&body.backend_support),
+      &database_support.eq(&body.database_support)
     );
     diesel::insert_into(hosts).values(data).execute(conn)
   }
