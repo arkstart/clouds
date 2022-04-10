@@ -3,11 +3,27 @@ use crate::host::{model, request};
 use crate::lib::error::{ErrResponse, ErrType};
 use crate::product::model::Product;
 use actix_web::{get, http::header, post, put, web, HttpRequest, HttpResponse};
+use diesel::QueryResult;
 use std::env;
 
+// Filter host based on Query Param
 #[get("/")]
-async fn get_all_host(pool: web::Data<PgPool>) -> HttpResponse {
-  let host_list = model::Host::get_all(pool);
+async fn get_all_host(
+  param: web::Query<request::HostFilterRequestParam>,
+  pool: web::Data<PgPool>,
+) -> HttpResponse {
+  let host_list: QueryResult<Vec<model::Host>>;
+  if param.always_free.is_some()
+    || param.free_tier.is_some()
+    || param.frontend_support.is_some()
+    || param.backend_support.is_some()
+    || param.database_support.is_some()
+  {
+    host_list = model::Host::filter(param, pool);
+  } else {
+    host_list = model::Host::get_all(pool);
+  }
+
   match host_list {
     Ok(list) => HttpResponse::Ok().json(list),
     Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),
@@ -83,7 +99,6 @@ async fn update_host(
     None => ErrResponse::new_message(ErrType::Unauthorized, "Authorization not set".to_string()),
   }
 }
-
 
 /// Routing for hosts
 pub fn route(config: &mut web::ServiceConfig) {
