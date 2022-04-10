@@ -10,8 +10,29 @@
 * Body
 ```
     name: String,  *
-    description: String,  *
-    url: String,  *
+    description: String,
+    url: String,
+    build_limit: String,
+    bandwith_limit: String,
+    site_limit: String,
+    https_support: Bool,
+    free_domain: Bool,
+    custom_domain: Bool,
+    domain_extension: String
+```
+5. PUT /api/hosts -> Update Host based on Name
+* Body
+```
+    name: String,  *
+    description: String,
+    url: String,
+    build_limit: String,
+    bandwith_limit: String,
+    site_limit: String,
+    https_support: Bool,
+    free_domain: Bool,
+    custom_domain: Bool,
+    domain_extension: String
 ```
 
 ## B. Product

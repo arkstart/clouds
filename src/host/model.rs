@@ -2,12 +2,12 @@ use crate::db::PgPool;
 use crate::host::{request, model};
 use crate::schema::hosts;
 use crate::schema::hosts::dsl::*;
+
 use actix_web::web;
 use diesel::{ExpressionMethods, QueryDsl, QueryResult, RunQueryDsl};
-
 use serde::{Deserialize, Serialize};
 
-#[derive(Queryable, Debug, Clone, Deserialize, Serialize, Identifiable, AsChangeset)]
+#[derive(Queryable, Debug, Clone, Deserialize, Serialize)]
 pub struct Host {
   pub id: i32,
   pub name: String,
