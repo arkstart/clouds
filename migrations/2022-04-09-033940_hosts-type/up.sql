@@ -6,5 +6,5 @@ ALTER TABLE hosts
   ADD COLUMN backend_support BOOLEAN,
   ADD COLUMN database_support BOOLEAN,
   ALTER COLUMN description TYPE VARCHAR,
-  ALTER COLUMN url TYPE VARCHAR,
+  ALTER COLUMN url TYPE VARCHAR
   
