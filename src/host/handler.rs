@@ -2,9 +2,8 @@ use crate::db::PgPool;
 use crate::host::{model, request};
 use crate::lib::error::{ErrResponse, ErrType};
 use crate::product::model::Product;
-use actix_web::{get, http::header, post, put, web, HttpRequest, HttpResponse};
+use actix_web::{get, post, put, web, HttpResponse};
 use diesel::QueryResult;
-use std::env;
 
 // Filter host based on Query Param
 #[get("/")]
@@ -54,49 +53,23 @@ async fn get_host_products(path: web::Path<String>, pool: web::Data<PgPool>) -> 
 
 #[post("/")]
 async fn insert_new_host(
-  req: HttpRequest,
   body: web::Json<request::HostRequest>,
   pool: web::Data<PgPool>,
 ) -> HttpResponse {
-  let req_auth = req.headers().get(header::AUTHORIZATION);
-  let auth_token = env::var("AUTHORIZATION_TOKEN").expect("AUTHORIZATION_TOKEN must be set");
-
-  match req_auth {
-    Some(token) => {
-      if token.to_str().unwrap() == auth_token {
-        match model::Host::add(body, pool) {
-          Ok(res) => HttpResponse::Ok().body(format!("Affected Rows: {}", res)),
-          Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),
-        }
-      } else {
-        ErrResponse::new_message(ErrType::Unauthorized, "Invalid Authorization".to_string())
-      }
-    }
-    None => ErrResponse::new_message(ErrType::Unauthorized, "Authorization not set".to_string()),
+  match model::Host::add(body, pool) {
+    Ok(res) => HttpResponse::Ok().body(format!("Affected Rows: {}", res)),
+    Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),
   }
 }
 
 #[put("/")]
 async fn update_host(
-  req: HttpRequest,
   body: web::Json<request::HostRequest>,
   pool: web::Data<PgPool>,
 ) -> HttpResponse {
-  let req_auth = req.headers().get(header::AUTHORIZATION);
-  let auth_token = env::var("AUTHORIZATION_TOKEN").expect("AUTHORIZATION_TOKEN must be set");
-
-  match req_auth {
-    Some(token) => {
-      if token.to_str().unwrap() == auth_token {
-        match model::Host::update(body, pool) {
-          Ok(res) => HttpResponse::Ok().json(res),
-          Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),
-        }
-      } else {
-        ErrResponse::new_message(ErrType::Unauthorized, "Invalid Authorization".to_string())
-      }
-    }
-    None => ErrResponse::new_message(ErrType::Unauthorized, "Authorization not set".to_string()),
+  match model::Host::update(body, pool) {
+    Ok(res) => HttpResponse::Ok().json(res),
+    Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),
   }
 }
 
