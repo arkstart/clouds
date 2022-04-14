@@ -18,12 +18,14 @@ pub struct Host {
   pub database_support: Option<bool>,
   pub description: Option<String>,
   pub url: Option<String>,
+  pub product_based: Option<bool>,
+  pub plan_based: Option<bool>
 }
 
 impl Host {
   pub fn get_all(pool: web::Data<PgPool>) -> QueryResult<Vec<Host>> {
     let conn = &pool.get().unwrap();
-    hosts::table.load::<Host>(conn)
+    hosts::table.order(name.asc()).load::<Host>(conn)
   }
 
   pub fn get_one(host_name: String, pool: web::Data<PgPool>) -> QueryResult<Host> {
@@ -80,6 +82,8 @@ impl Host {
       &frontend_support.eq(&body.frontend_support),
       &backend_support.eq(&body.backend_support),
       &database_support.eq(&body.database_support),
+      &product_based.eq(&body.product_based),
+      &plan_based.eq(&body.plan_based)
     );
     diesel::insert_into(hosts).values(data).execute(conn)
   }
@@ -99,6 +103,8 @@ impl Host {
       frontend_support: body.frontend_support.clone(),
       backend_support: body.backend_support.clone(),
       database_support: body.database_support.clone(),
+      product_based: body.product_based.clone(),
+      plan_based: body.plan_based.clone()
     };
     diesel::update(hosts)
       .filter(name.eq(body.name.clone()))
