@@ -9,6 +9,8 @@ table! {
         database_support -> Nullable<Bool>,
         description -> Nullable<Varchar>,
         url -> Nullable<Varchar>,
+        product_based -> Nullable<Bool>,
+        plan_based -> Nullable<Bool>,
     }
 }
 
