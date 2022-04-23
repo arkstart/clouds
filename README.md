@@ -42,27 +42,7 @@ Query Param (Optional)
     domain_extension: String
 ```
 
-## B. Product
-1. GET /api/products/ -> Get All Product
-2. GET /api/products/{product_name} -> Get One Product
-* `{product_name}` Should be string
-2. POST /api/products/ -> Add New Product
-* Body
-```
-    host_name: String,*
-    name: String,*
-    description: String,*
-    url: String,*
-    build_limit: String,
-    bandwith_limit: String,
-    site_limit: String,
-    https_support: Bool,
-    free_domain: Bool,
-    custom_domain: Bool,
-    domain_extension: String
-```
-
-## C. Plan
+## B. Plan
 1. GET /api/plans/ -> Get All Plan
 2. GET /api/plans/{plan_name} -> Get One Plan
 * `{plan_name}` Should be string
@@ -99,6 +79,7 @@ Query Param (Optional)
   analytic_unit: Option<String>,
   analytic_timeunit: Option<String>,
   analytic_desc: Option<String>,
+  plan_url: Option<String>,
 ```
 5. PUT /api/plans/ -> Update Plan based on Name
 * Body
@@ -130,4 +111,5 @@ Query Param (Optional)
   analytic_unit: Option<String>,
   analytic_timeunit: Option<String>,
   analytic_desc: Option<String>,
+  plan_url: Option<String>,
 ```

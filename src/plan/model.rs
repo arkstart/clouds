@@ -18,33 +18,34 @@ pub struct Plan {
   pub price_unit: Option<String>,
   pub price_timeunit: Option<String>,
   pub price_desc: Option<String>,
-  // Concurrent Build
+  // // Concurrent Build
   pub concurrent_build: Option<i32>,
   pub concurrent_build_unit: Option<String>,
   pub concurrent_build_timeunit: Option<String>,
   pub concurrent_build_desc: Option<String>,
-  // Bandwidth
+  // // Bandwidth
   pub bandwidth: Option<i32>,
   pub bandwidth_unit: Option<String>,
   pub bandwidth_timeunit: Option<String>,
   pub bandwidth_desc: Option<String>,
-  // Build
+  // // Build
   pub build: Option<i32>,
   pub build_unit: Option<String>,
   pub build_timeunit: Option<String>,
   pub build_desc: Option<String>,
-  // Analytic
+  // // Analytic
   pub analytic: Option<bool>,
   pub analytic_price: Option<i32>,
   pub analytic_unit: Option<String>,
   pub analytic_timeunit: Option<String>,
   pub analytic_desc: Option<String>,
+  pub plan_url: Option<String>
 }
 
 impl Plan {
   pub fn get_all(pool: web::Data<PgPool>) -> QueryResult<Vec<Plan>> {
     let conn = &pool.get().unwrap();
-    plans::table.load::<Plan>(conn)
+    plans::table.order(price.desc()).load::<Plan>(conn)
   }
 
   pub fn get_one(plan_name: String, pool: web::Data<PgPool>) -> QueryResult<Plan> {
@@ -84,6 +85,7 @@ impl Plan {
       &analytic_unit.eq(&body.analytic_unit),
       &analytic_timeunit.eq(&body.analytic_timeunit),
       &analytic_desc.eq(&body.analytic_desc),
+      &plan_url.eq(&body.plan_url)
     );
     diesel::insert_into(plans).values(data).execute(conn)
   }
@@ -115,6 +117,7 @@ impl Plan {
       analytic_unit: body.analytic_unit.clone(),
       analytic_timeunit: body.analytic_timeunit.clone(),
       analytic_desc: body.analytic_desc.clone(),
+      plan_url: body.plan_url.clone()
     };
     diesel::update(plans)
       .filter(name.eq(body.name.clone()))
