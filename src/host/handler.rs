@@ -28,6 +28,14 @@ async fn get_all_host(
   }
 }
 
+#[get("/names")]
+async fn get_all_hostname(pool: web::Data<PgPool>) -> HttpResponse {
+  match model::Host::get_all_name(pool) {
+    Ok(host_names) => HttpResponse::Ok().json(host_names),
+    Err(_) => ErrResponse::new_message(ErrType::BadRequest, "Host name not found".to_string()),
+  }
+}
+
 #[get("/{host_name}")]
 async fn get_host(path: web::Path<String>, pool: web::Data<PgPool>) -> HttpResponse {
   let host_name = path.into_inner();
@@ -36,6 +44,8 @@ async fn get_host(path: web::Path<String>, pool: web::Data<PgPool>) -> HttpRespo
     Err(_) => ErrResponse::new_message(ErrType::BadRequest, "Host name not found".to_string()),
   }
 }
+
+
 
 #[post("/")]
 async fn insert_new_host(
@@ -63,6 +73,7 @@ async fn update_host(
 pub fn route(config: &mut web::ServiceConfig) {
   config
     .service(get_all_host)
+    .service(get_all_hostname)
     .service(get_host)
     .service(insert_new_host)
     .service(update_host);
