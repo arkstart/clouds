@@ -2,7 +2,7 @@ use crate::db::PgPool;
 use crate::host::model::Host;
 use crate::lib::error::{ErrResponse, ErrType};
 use crate::plan::{model, request};
-use actix_web::{get, post, web, HttpResponse};
+use actix_web::{get, post, put, web, HttpResponse};
 
 #[get("/")]
 async fn get_all_plan(pool: web::Data<PgPool>) -> HttpResponse {
@@ -53,11 +53,23 @@ async fn insert_new_plan(
   }
 }
 
+#[put("/")]
+async fn update_plan(
+  body: web::Json<request::UpdatePlanRequest>,
+  pool: web::Data<PgPool>,
+) -> HttpResponse {
+  match model::Plan::update(body, pool) {
+    Ok(res) => HttpResponse::Ok().json(res),
+    Err(e) => ErrResponse::new(ErrType::BadRequest, e.to_string()),
+  }
+}
+
 /// Routing for product
 pub fn route(config: &mut web::ServiceConfig) {
   config
     .service(get_all_plan)
     .service(get_plan)
     .service(get_host_plan)
+    .service(update_plan)
     .service(insert_new_plan);
 }
