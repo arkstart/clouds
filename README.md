@@ -79,6 +79,7 @@ Query Param (Optional)
   analytic_unit: Option<String>,
   analytic_timeunit: Option<String>,
   analytic_desc: Option<String>,
+  plan_url: Option<String>,
 ```
 5. PUT /api/plans/ -> Update Plan based on Name
 * Body
@@ -110,4 +111,5 @@ Query Param (Optional)
   analytic_unit: Option<String>,
   analytic_timeunit: Option<String>,
   analytic_desc: Option<String>,
+  plan_url: Option<String>,
 ```
