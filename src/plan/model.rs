@@ -52,6 +52,11 @@ impl Plan {
     plans.filter(&name.eq(plan_name)).first::<Plan>(conn)
   }
 
+  pub fn get_all_by_host(host_id: i32, pool: web::Data<PgPool>) -> QueryResult<Vec<Plan>> {
+    let conn = &pool.get().unwrap();
+    plans.filter(&hosts_id.eq(host_id)).load::<Plan>(conn)
+  }
+
   pub fn add(host_id: i32, body: AddPlanRequest, pool: web::Data<PgPool>) -> QueryResult<usize> {
     let conn = &pool.get().unwrap();
     let data = (
