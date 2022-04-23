@@ -100,7 +100,7 @@ Query Param (Optional)
   analytic_timeunit: Option<String>,
   analytic_desc: Option<String>,
 ```
-5. PUT /api/plans/ -> Update Host based on Name
+5. PUT /api/plans/ -> Update Plan based on Name
 * Body
 ```
   name: Option<String>,
