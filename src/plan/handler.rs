@@ -2,7 +2,7 @@ use crate::db::PgPool;
 use crate::host::model::Host;
 use crate::lib::error::{ErrResponse, ErrType};
 use crate::plan::{model, request};
-use actix_web::{get, post, web, HttpResponse};
+use actix_web::{get, post, put, web, HttpResponse};
 
 #[get("/")]
 async fn get_all_plan(pool: web::Data<PgPool>) -> HttpResponse {
@@ -10,6 +10,28 @@ async fn get_all_plan(pool: web::Data<PgPool>) -> HttpResponse {
   match plan_list {
     Ok(list) => HttpResponse::Ok().json(list),
     Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),
+  }
+}
+
+#[get("/{plan_name}")]
+async fn get_plan(path: web::Path<String>, pool: web::Data<PgPool>) -> HttpResponse {
+  let plan_name = path.into_inner();
+  match model::Plan::get_one(plan_name, pool) {
+    Ok(plan) => HttpResponse::Ok().json(plan),
+    Err(_) => ErrResponse::new_message(ErrType::BadRequest, "Plan name not found".to_string()),
+  }
+}
+
+#[get("/hosts/{host_name}")]
+async fn get_host_plan(path: web::Path<String>, pool: web::Data<PgPool>) -> HttpResponse {
+  let host_name = path.into_inner();
+  if let Ok(id) = Host::get_id(host_name, pool.clone()) {
+    match model::Plan::get_all_by_host(id, pool) {
+      Ok(res) => HttpResponse::Ok().json(res),
+      Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),
+    }
+  } else {
+    ErrResponse::new_message(ErrType::BadRequest, "Host name not found".to_string())
   }
 }
 
@@ -31,7 +53,23 @@ async fn insert_new_plan(
   }
 }
 
+#[put("/")]
+async fn update_plan(
+  body: web::Json<request::UpdatePlanRequest>,
+  pool: web::Data<PgPool>,
+) -> HttpResponse {
+  match model::Plan::update(body, pool) {
+    Ok(res) => HttpResponse::Ok().json(res),
+    Err(e) => ErrResponse::new(ErrType::BadRequest, e.to_string()),
+  }
+}
+
 /// Routing for product
 pub fn route(config: &mut web::ServiceConfig) {
-  config.service(get_all_plan).service(insert_new_plan);
+  config
+    .service(get_all_plan)
+    .service(get_plan)
+    .service(get_host_plan)
+    .service(update_plan)
+    .service(insert_new_plan);
 }

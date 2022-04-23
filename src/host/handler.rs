@@ -69,7 +69,7 @@ async fn update_host(
 ) -> HttpResponse {
   match model::Host::update(body, pool) {
     Ok(res) => HttpResponse::Ok().json(res),
-    Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),
+    Err(e) => ErrResponse::new(ErrType::BadRequest, e.to_string()),
   }
 }
 

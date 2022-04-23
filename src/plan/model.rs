@@ -1,10 +1,10 @@
 use crate::db::PgPool;
-use crate::plan::request::AddPlanRequest;
+use crate::plan::request::*;
 use crate::schema::plans;
 use crate::schema::plans::dsl::*;
 use actix_web::web;
 use diesel::QueryResult;
-use diesel::{ExpressionMethods, RunQueryDsl};
+use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
 
 use serde::{Deserialize, Serialize};
 
@@ -47,6 +47,16 @@ impl Plan {
     plans::table.load::<Plan>(conn)
   }
 
+  pub fn get_one(plan_name: String, pool: web::Data<PgPool>) -> QueryResult<Plan> {
+    let conn = &pool.get().unwrap();
+    plans.filter(&name.eq(plan_name)).first::<Plan>(conn)
+  }
+
+  pub fn get_all_by_host(host_id: i32, pool: web::Data<PgPool>) -> QueryResult<Vec<Plan>> {
+    let conn = &pool.get().unwrap();
+    plans.filter(&hosts_id.eq(host_id)).load::<Plan>(conn)
+  }
+
   pub fn add(host_id: i32, body: AddPlanRequest, pool: web::Data<PgPool>) -> QueryResult<usize> {
     let conn = &pool.get().unwrap();
     let data = (
@@ -76,5 +86,39 @@ impl Plan {
       &analytic_desc.eq(&body.analytic_desc),
     );
     diesel::insert_into(plans).values(data).execute(conn)
+  }
+
+  pub fn update(body: web::Json<UpdatePlanRequest>, pool: web::Data<PgPool>) -> QueryResult<Plan> {
+    let conn = &pool.get().unwrap();
+
+    let data = UpdatePlanRequest {
+      name: body.name.clone(),
+      description: body.description.clone(),
+      price: body.price.clone(),
+      price_unit: body.price_unit.clone(),
+      price_timeunit: body.price_timeunit.clone(),
+      price_desc: body.price_desc.clone(),
+      concurrent_build: body.concurrent_build.clone(),
+      concurrent_build_unit: body.concurrent_build_unit.clone(),
+      concurrent_build_timeunit: body.concurrent_build_timeunit.clone(),
+      concurrent_build_desc: body.concurrent_build_desc.clone(),
+      bandwidth: body.bandwidth.clone(),
+      bandwidth_unit: body.bandwidth_unit.clone(),
+      bandwidth_timeunit: body.bandwidth_timeunit.clone(),
+      bandwidth_desc: body.bandwidth_desc.clone(),
+      build: body.build.clone(),
+      build_unit: body.build_unit.clone(),
+      build_timeunit: body.build_timeunit.clone(),
+      build_desc: body.build_desc.clone(),
+      analytic: body.analytic.clone(),
+      analytic_price: body.analytic_price.clone(),
+      analytic_unit: body.analytic_unit.clone(),
+      analytic_timeunit: body.analytic_timeunit.clone(),
+      analytic_desc: body.analytic_desc.clone(),
+    };
+    diesel::update(plans)
+      .filter(name.eq(body.name.clone()))
+      .set(data)
+      .get_result::<Plan>(conn)
   }
 }

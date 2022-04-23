@@ -61,3 +61,73 @@ Query Param (Optional)
     custom_domain: Bool,
     domain_extension: String
 ```
+
+## C. Plan
+1. GET /api/plans/ -> Get All Plan
+2. GET /api/plans/{plan_name} -> Get One Plan
+* `{plan_name}` Should be string
+3. GET /api/plans/hosts/{host_name} -> Get All Plan of the Host
+* `{host_name}` Should be string
+4. POST /api/plans/ -> Add New Plan
+* Body
+```
+  host_name: String,
+  name: Option<String>,
+  description: Option<String>,
+  price: Option<i32>,
+  price_unit: Option<String>,
+  price_timeunit: Option<String>,
+  price_desc: Option<String>,
+  // Concurrent Build
+  concurrent_build: Option<i32>,
+  concurrent_build_unit: Option<String>,
+  concurrent_build_timeunit: Option<String>,
+  concurrent_build_desc: Option<String>,
+  // Bandwidth
+  bandwidth: Option<i32>,
+  bandwidth_unit: Option<String>,
+  bandwidth_timeunit: Option<String>,
+  bandwidth_desc: Option<String>,
+  // Build
+  build: Option<i32>,
+  build_unit: Option<String>,
+  build_timeunit: Option<String>,
+  build_desc: Option<String>,
+  // Analytic
+  analytic: Option<bool>,
+  analytic_price: Option<i32>,
+  analytic_unit: Option<String>,
+  analytic_timeunit: Option<String>,
+  analytic_desc: Option<String>,
+```
+5. PUT /api/plans/ -> Update Plan based on Name
+* Body
+```
+  name: Option<String>,
+  description: Option<String>,
+  price: Option<i32>,
+  price_unit: Option<String>,
+  price_timeunit: Option<String>,
+  price_desc: Option<String>,
+  // Concurrent Build
+  concurrent_build: Option<i32>,
+  concurrent_build_unit: Option<String>,
+  concurrent_build_timeunit: Option<String>,
+  concurrent_build_desc: Option<String>,
+  // Bandwidth
+  bandwidth: Option<i32>,
+  bandwidth_unit: Option<String>,
+  bandwidth_timeunit: Option<String>,
+  bandwidth_desc: Option<String>,
+  // Build
+  build: Option<i32>,
+  build_unit: Option<String>,
+  build_timeunit: Option<String>,
+  build_desc: Option<String>,
+  // Analytic
+  analytic: Option<bool>,
+  analytic_price: Option<i32>,
+  analytic_unit: Option<String>,
+  analytic_timeunit: Option<String>,
+  analytic_desc: Option<String>,
+```
