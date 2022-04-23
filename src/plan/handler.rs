@@ -13,6 +13,15 @@ async fn get_all_plan(pool: web::Data<PgPool>) -> HttpResponse {
   }
 }
 
+#[get("/{plan_name}")]
+async fn get_host(path: web::Path<String>, pool: web::Data<PgPool>) -> HttpResponse {
+  let plan_name = path.into_inner();
+  match model::Plan::get_one(plan_name, pool) {
+    Ok(plan) => HttpResponse::Ok().json(plan),
+    Err(_) => ErrResponse::new_message(ErrType::BadRequest, "Plan name not found".to_string()),
+  }
+}
+
 #[post("/")]
 async fn insert_new_plan(
   body: web::Json<request::AddPlanRequest>,
@@ -33,5 +42,8 @@ async fn insert_new_plan(
 
 /// Routing for product
 pub fn route(config: &mut web::ServiceConfig) {
-  config.service(get_all_plan).service(insert_new_plan);
+  config
+    .service(get_all_plan)
+    .service(get_host)
+    .service(insert_new_plan);
 }

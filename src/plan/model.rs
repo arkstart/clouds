@@ -4,7 +4,7 @@ use crate::schema::plans;
 use crate::schema::plans::dsl::*;
 use actix_web::web;
 use diesel::QueryResult;
-use diesel::{ExpressionMethods, RunQueryDsl};
+use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
 
 use serde::{Deserialize, Serialize};
 
@@ -45,6 +45,11 @@ impl Plan {
   pub fn get_all(pool: web::Data<PgPool>) -> QueryResult<Vec<Plan>> {
     let conn = &pool.get().unwrap();
     plans::table.load::<Plan>(conn)
+  }
+
+  pub fn get_one(plan_name: String, pool: web::Data<PgPool>) -> QueryResult<Plan> {
+    let conn = &pool.get().unwrap();
+    plans.filter(&name.eq(plan_name)).first::<Plan>(conn)
   }
 
   pub fn add(host_id: i32, body: AddPlanRequest, pool: web::Data<PgPool>) -> QueryResult<usize> {
