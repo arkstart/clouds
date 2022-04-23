@@ -29,6 +29,11 @@ impl Host {
     hosts::table.order(name.desc()).load::<Host>(conn)
   }
 
+  pub fn get_all_name(pool: web::Data<PgPool>) -> QueryResult<Vec<String>> {
+    let conn = &pool.get().unwrap();
+    hosts::table.select(hosts::name).order(name.desc()).load::<String>(conn)
+  }
+
   pub fn get_one(host_name: String, pool: web::Data<PgPool>) -> QueryResult<Host> {
     let conn = &pool.get().unwrap();
     hosts.filter(&name.eq(host_name)).first::<Host>(conn)
