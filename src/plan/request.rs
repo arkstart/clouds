@@ -33,6 +33,7 @@ pub struct AddPlanRequest {
   pub analytic_unit: Option<String>,
   pub analytic_timeunit: Option<String>,
   pub analytic_desc: Option<String>,
+  pub plan_url: Option<String>
 }
 
 
@@ -66,4 +67,5 @@ pub struct UpdatePlanRequest {
   pub analytic_unit: Option<String>,
   pub analytic_timeunit: Option<String>,
   pub analytic_desc: Option<String>,
+  pub plan_url: Option<String>
 }

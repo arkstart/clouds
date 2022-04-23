@@ -23,9 +23,10 @@ pub struct Host {
 }
 
 impl Host {
+  // Set order by descending after we made the products endpoint
   pub fn get_all(pool: web::Data<PgPool>) -> QueryResult<Vec<Host>> {
     let conn = &pool.get().unwrap();
-    hosts::table.order(name.asc()).load::<Host>(conn)
+    hosts::table.order(name.desc()).load::<Host>(conn)
   }
 
   pub fn get_one(host_name: String, pool: web::Data<PgPool>) -> QueryResult<Host> {
