@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS plans (
     hosts_id integer NOT NULL,
     name VARCHAR,
     description VARCHAR,
-    plan_url VARCHAR
+    plan_url VARCHAR,
     price integer,
     price_unit VARCHAR,
     price_timeunit VARCHAR,
