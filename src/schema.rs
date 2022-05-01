@@ -4,13 +4,13 @@ table! {
         name -> Varchar,
         description -> Nullable<Varchar>,
         url -> Nullable<Varchar>,
-        always_free -> Nullable<Bool>,
         free_tier -> Nullable<Bool>,
         frontend_support -> Nullable<Bool>,
         backend_support -> Nullable<Bool>,
         database_support -> Nullable<Bool>,
         product_based -> Nullable<Bool>,
         plan_based -> Nullable<Bool>,
+        always_free -> Nullable<Bool>,
     }
 }
 
@@ -20,6 +20,7 @@ table! {
         hosts_id -> Int4,
         name -> Nullable<Varchar>,
         description -> Nullable<Varchar>,
+        plan_url -> Nullable<Varchar>,
         price -> Nullable<Int4>,
         price_unit -> Nullable<Varchar>,
         price_timeunit -> Nullable<Varchar>,
@@ -41,7 +42,6 @@ table! {
         analytic_unit -> Nullable<Varchar>,
         analytic_timeunit -> Nullable<Varchar>,
         analytic_desc -> Nullable<Varchar>,
-        plan_url -> Nullable<Varchar>,
     }
 }
 
