@@ -12,6 +12,7 @@ mod host;
 mod lib;
 mod migration;
 mod plan;
+mod product;
 mod schema;
 
 async fn serve_web(address: String, pool: db::PgPool) -> std::io::Result<()> {
