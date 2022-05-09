@@ -5,7 +5,6 @@ CREATE TABLE IF NOT EXISTS products (
     title VARCHAR NOT NULL,
     subtitle VARCHAR,
     description VARCHAR,
-    -- Analytic (ANLT), Storage (STRG), Databases (DTBS), Compute (CMPT), Containers (CNTN)
     category VARCHAR NOT NULL,
     product_url VARCHAR,
     free_tier BOOLEAN, -- Always Free
