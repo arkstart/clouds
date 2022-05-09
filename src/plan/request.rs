@@ -1,7 +1,6 @@
-use serde::{Deserialize, Serialize};
-use diesel::AsChangeset;
 use crate::schema::plans;
-
+use diesel::AsChangeset;
+use serde::{Deserialize, Serialize};
 
 #[derive(Queryable, Debug, Clone, Deserialize, Serialize)]
 pub struct AddPlanRequest {
@@ -33,12 +32,11 @@ pub struct AddPlanRequest {
   pub analytic_unit: Option<String>,
   pub analytic_timeunit: Option<String>,
   pub analytic_desc: Option<String>,
-  pub plan_url: Option<String>
+  pub plan_url: Option<String>,
 }
 
-
 #[derive(Queryable, Debug, Clone, Deserialize, Serialize, AsChangeset)]
-#[table_name="plans"]
+#[table_name = "plans"]
 pub struct UpdatePlanRequest {
   pub name: Option<String>,
   pub description: Option<String>,
@@ -67,5 +65,5 @@ pub struct UpdatePlanRequest {
   pub analytic_unit: Option<String>,
   pub analytic_timeunit: Option<String>,
   pub analytic_desc: Option<String>,
-  pub plan_url: Option<String>
+  pub plan_url: Option<String>,
 }

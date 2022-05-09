@@ -40,10 +40,23 @@ async fn insert_new_product(
     }
 }
 
+#[put("/")]
+async fn update_product(
+  body: web::Json<request::UpdateProductRequest>,
+  pool: web::Data<PgPool>,
+) -> HttpResponse {
+  match model::Product::update(body, pool) {
+    Ok(res) => HttpResponse::Ok().json(res),
+    Err(e) => ErrResponse::new(ErrType::BadRequest, e.to_string()),
+  }
+}
+
+
 /// Routing for product
 pub fn route(config: &mut web::ServiceConfig) {
     config
         .service(get_all_product)
         .service(get_product)
-        .service(insert_new_product);
+        .service(insert_new_product)
+        .service(update_product);
 }
