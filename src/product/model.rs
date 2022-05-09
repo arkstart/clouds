@@ -30,7 +30,12 @@ impl Product {
         let conn = &pool.get().unwrap();
         products::table.load::<Product>(conn)
     }
-    
+
+    pub fn get_one(product_name: String, pool: web::Data<PgPool>) -> QueryResult<Product> {
+        let conn = &pool.get().unwrap();
+        products.filter(&title.eq(product_name)).first::<Product>(conn)
+    }
+
     pub fn add(
         host_id: i32,
         body: AddProductRequest,

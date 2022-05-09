@@ -6,10 +6,19 @@ use actix_web::{get, post, put, web, HttpResponse};
 
 #[get("/")]
 async fn get_all_product(pool: web::Data<PgPool>) -> HttpResponse {
-    let plan_list = model::Product::get_all(pool);
-    match plan_list {
+    let product_list = model::Product::get_all(pool);
+    match product_list {
         Ok(list) => HttpResponse::Ok().json(list),
         Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),
+    }
+}
+
+#[get("/{product_name}")]
+async fn get_product(path: web::Path<String>, pool: web::Data<PgPool>) -> HttpResponse {
+    let product_name = path.into_inner();
+    match model::Product::get_one(product_name, pool) {
+        Ok(plan) => HttpResponse::Ok().json(plan),
+        Err(_) => ErrResponse::new_message(ErrType::BadRequest, "Product name not found".to_string()),
     }
 }
 
@@ -33,5 +42,8 @@ async fn insert_new_product(
 
 /// Routing for product
 pub fn route(config: &mut web::ServiceConfig) {
-    config.service(get_all_product).service(insert_new_product);
+    config
+        .service(get_all_product)
+        .service(get_product)
+        .service(insert_new_product);
 }
