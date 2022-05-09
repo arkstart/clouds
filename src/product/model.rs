@@ -26,6 +26,11 @@ pub struct Product {
 }
 
 impl Product {
+    pub fn get_all(pool: web::Data<PgPool>) -> QueryResult<Vec<Product>> {
+        let conn = &pool.get().unwrap();
+        products::table.load::<Product>(conn)
+    }
+    
     pub fn add(
         host_id: i32,
         body: AddProductRequest,

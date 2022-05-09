@@ -4,6 +4,15 @@ use crate::lib::error::{ErrResponse, ErrType};
 use crate::product::{model, request};
 use actix_web::{get, post, put, web, HttpResponse};
 
+#[get("/")]
+async fn get_all_product(pool: web::Data<PgPool>) -> HttpResponse {
+    let plan_list = model::Product::get_all(pool);
+    match plan_list {
+        Ok(list) => HttpResponse::Ok().json(list),
+        Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),
+    }
+}
+
 #[post("/")]
 async fn insert_new_product(
     body: web::Json<request::AddProductRequest>,
@@ -24,5 +33,5 @@ async fn insert_new_product(
 
 /// Routing for product
 pub fn route(config: &mut web::ServiceConfig) {
-    config.service(insert_new_product);
+    config.service(get_all_product).service(insert_new_product);
 }
