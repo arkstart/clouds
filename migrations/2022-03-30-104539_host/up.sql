@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS hosts (
     name VARCHAR NOT NULL,
     description VARCHAR,
     url VARCHAR,
+    always_free BOOLEAN,
     free_tier BOOLEAN,
     frontend_support BOOLEAN DEFAULT true,
     backend_support BOOLEAN,

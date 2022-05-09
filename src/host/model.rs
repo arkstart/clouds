@@ -11,13 +11,13 @@ use serde::{Deserialize, Serialize};
 pub struct Host {
   pub id: i32,
   pub name: String,
+  pub description: Option<String>,
+  pub url: Option<String>,
   pub always_free: Option<bool>,
   pub free_tier: Option<bool>,
   pub frontend_support: Option<bool>,
   pub backend_support: Option<bool>,
   pub database_support: Option<bool>,
-  pub description: Option<String>,
-  pub url: Option<String>,
   pub product_based: Option<bool>,
   pub plan_based: Option<bool>
 }

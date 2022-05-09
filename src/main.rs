@@ -12,6 +12,7 @@ mod host;
 mod lib;
 mod migration;
 mod plan;
+mod product;
 mod schema;
 
 async fn serve_web(address: String, pool: db::PgPool) -> std::io::Result<()> {
@@ -22,6 +23,7 @@ async fn serve_web(address: String, pool: db::PgPool) -> std::io::Result<()> {
             .route("/api/migration", web::post().to(migration::migrate))
             .service(web::scope("/api/hosts").configure(host::handler::route))
             .service(web::scope("/api/plans").configure(plan::handler::route))
+            .service(web::scope("/api/products").configure(product::handler::route))
     })
     .bind(address)?
     .run()

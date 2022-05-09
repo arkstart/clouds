@@ -2,15 +2,15 @@ table! {
     hosts (id) {
         id -> Int4,
         name -> Varchar,
-        always_free -> Nullable<Bool>,
+        description -> Nullable<Varchar>,
+        url -> Nullable<Varchar>,
         free_tier -> Nullable<Bool>,
         frontend_support -> Nullable<Bool>,
         backend_support -> Nullable<Bool>,
         database_support -> Nullable<Bool>,
-        description -> Nullable<Varchar>,
-        url -> Nullable<Varchar>,
         product_based -> Nullable<Bool>,
         plan_based -> Nullable<Bool>,
+        always_free -> Nullable<Bool>,
     }
 }
 
@@ -45,9 +45,30 @@ table! {
     }
 }
 
+table! {
+    products (id) {
+        id -> Int4,
+        hosts_id -> Int4,
+        title -> Varchar,
+        subtitle -> Nullable<Varchar>,
+        description -> Nullable<Varchar>,
+        category -> Varchar,
+        product_url -> Nullable<Varchar>,
+        free_tier -> Nullable<Bool>,
+        free_trial -> Nullable<Bool>,
+        base_price -> Nullable<Float8>,
+        price_unit -> Nullable<Varchar>,
+        price_timeunit -> Nullable<Varchar>,
+        price_desc -> Nullable<Varchar>,
+        multi_pricing -> Nullable<Bool>,
+    }
+}
+
 joinable!(plans -> hosts (hosts_id));
+joinable!(products -> hosts (hosts_id));
 
 allow_tables_to_appear_in_same_query!(
     hosts,
     plans,
+    products,
 );
