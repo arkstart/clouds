@@ -26,6 +26,18 @@ pub struct Product {
 }
 
 impl Product {
+    pub fn get_all(pool: web::Data<PgPool>) -> QueryResult<Vec<Product>> {
+        let conn = &pool.get().unwrap();
+        products::table.load::<Product>(conn)
+    }
+
+    pub fn get_one(product_name: String, pool: web::Data<PgPool>) -> QueryResult<Product> {
+        let conn = &pool.get().unwrap();
+        products
+            .filter(&title.eq(product_name))
+            .first::<Product>(conn)
+    }
+
     pub fn add(
         host_id: i32,
         body: AddProductRequest,
@@ -48,5 +60,30 @@ impl Product {
             &multi_pricing.eq(&body.multi_pricing),
         );
         diesel::insert_into(products).values(data).execute(conn)
+    }
+
+    pub fn update(
+        body: web::Json<UpdateProductRequest>,
+        pool: web::Data<PgPool>,
+    ) -> QueryResult<Product> {
+        let conn = &pool.get().unwrap();
+        let data = UpdateProductRequest {
+            title: body.title.clone(),
+            subtitle: body.subtitle.clone(),
+            description: body.description.clone(),
+            category: body.category.clone(),
+            product_url: body.product_url.clone(),
+            free_tier: body.free_tier.clone(),
+            free_trial: body.free_trial.clone(),
+            base_price: body.base_price.clone(),
+            price_unit: body.price_unit.clone(),
+            price_timeunit: body.price_timeunit.clone(),
+            price_desc: body.price_desc.clone(),
+            multi_pricing: body.multi_pricing.clone(),
+        };
+        diesel::update(products)
+            .filter(title.eq(body.title.clone()))
+            .set(data)
+            .get_result::<Product>(conn)
     }
 }
