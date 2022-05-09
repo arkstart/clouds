@@ -26,6 +26,12 @@ pub struct Product {
 }
 
 impl Product {
+    // Analytic (ANLT), Storage (STOR), Databases (DTBS), Compute (CMPT), Containers (CTNR)
+    pub fn check_category(product_category: &str) -> bool {
+        let category_list = vec!["ANLT", "STOR", "DTBS", "CMPT", "CTNR"];
+        category_list.contains(&product_category)
+    }
+
     pub fn get_all(pool: web::Data<PgPool>) -> QueryResult<Vec<Product>> {
         let conn = &pool.get().unwrap();
         products::table.load::<Product>(conn)
