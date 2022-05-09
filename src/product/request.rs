@@ -1,5 +1,4 @@
 use crate::schema::products;
-use bigdecimal::BigDecimal;
 use diesel::AsChangeset;
 use serde::{Deserialize, Serialize};
 
@@ -9,6 +8,7 @@ pub struct AddProductRequest {
     pub title: String,
     pub subtitle: Option<String>,
     pub description: Option<String>,
+    pub category: String,
     pub product_url: Option<String>,
     pub free_tier: Option<bool>,
     pub free_trial: Option<bool>,
