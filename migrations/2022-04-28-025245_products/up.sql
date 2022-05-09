@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS products (
     product_url VARCHAR,
     free_tier BOOLEAN, -- Always Free
     free_trial BOOLEAN,
-    base_price numeric,
+    base_price FLOAT,
     price_unit VARCHAR,
     price_timeunit VARCHAR,
     price_desc VARCHAR,
