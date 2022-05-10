@@ -144,7 +144,7 @@
 
 - `{product_name}` Should be string
 
-3. POST /api/plans/ -> Add New Product
+3. POST /api/products/ -> Add New Product
 
 - Body
 
@@ -164,7 +164,7 @@
   pub multi_pricing: Option<bool>,
 ```
 
-5. PUT /api/plans/ -> Update Plan based on Name
+5. PUT /api/products/ -> Update Plan based on Name
 
 - Body
 
