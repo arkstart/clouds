@@ -13,8 +13,7 @@ pub struct HostRequest {
   pub frontend_support: Option<bool>,
   pub backend_support: Option<bool>,
   pub database_support: Option<bool>,
-  pub product_based: Option<bool>,
-  pub plan_based: Option<bool>
+  pub template: Option<String>,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]

@@ -34,7 +34,7 @@ impl Product {
 
     pub fn get_all(pool: web::Data<PgPool>) -> QueryResult<Vec<Product>> {
         let conn = &pool.get().unwrap();
-        products::table.load::<Product>(conn)
+        products::table.order(title.asc()).load::<Product>(conn)
     }
 
     pub fn get_one(product_name: String, pool: web::Data<PgPool>) -> QueryResult<Product> {
@@ -42,6 +42,11 @@ impl Product {
         products
             .filter(&title.eq(product_name))
             .first::<Product>(conn)
+    }
+
+    pub fn get_all_by_host(host_id: i32, pool: web::Data<PgPool>) -> QueryResult<Vec<Product>> {
+        let conn = &pool.get().unwrap();
+        products.filter(&hosts_id.eq(host_id)).load::<Product>(conn)
     }
 
     pub fn add(

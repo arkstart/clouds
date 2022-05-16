@@ -28,14 +28,15 @@
 - Body
 
 ```
-    name: String,  *
-    description: String,
-    url: String,
-    always_free: Bool,
-    free_tier: Bool
-    frontend_support: Bool,
-    backend_support: Bool,
-    database_support: Bool
+  name: String,
+  description: Option<String>,
+  url: Option<String>,
+  always_free: Option<bool>,
+  free_tier: Option<bool>,
+  frontend_support: Option<bool>,
+  backend_support: Option<bool>,
+  database_support: Option<bool>,
+  template: Option<String>
 ```
 
 5. PUT /api/hosts/ -> Update Host based on Name
@@ -43,16 +44,15 @@
 - Body
 
 ```
-    name: String,  *
-    description: String,
-    url: String,
-    build_limit: String,
-    bandwith_limit: String,
-    site_limit: String,
-    https_support: Bool,
-    free_domain: Bool,
-    custom_domain: Bool,
-    domain_extension: String
+  name: String,
+  description: Option<String>,
+  url: Option<String>,
+  always_free: Option<bool>,
+  free_tier: Option<bool>,
+  frontend_support: Option<bool>,
+  backend_support: Option<bool>,
+  database_support: Option<bool>,
+  template: Option<String>
 ```
 
 ## B. Plan
@@ -144,41 +144,41 @@
 
 - `{product_name}` Should be string
 
-3. POST /api/plans/ -> Add New Product
+3. POST /api/products/ -> Add New Product
 
 - Body
 
 ```
-  pub host_name: String,
-  pub title: String,
-  pub subtitle: Option<String>,
-  pub description: Option<String>,
-  pub category: String, "Category should be either ANLT, STOR, DTBS, CMPT, or CTNR"
-  pub product_url: Option<String>,
-  pub free_tier: Option<bool>,
-  pub free_trial: Option<bool>,
-  pub base_price: Option<f64>,
-  pub price_unit: Option<String>,
-  pub price_timeunit: Option<String>,
-  pub price_desc: Option<String>,
-  pub multi_pricing: Option<bool>,
+  host_name: String,
+  title: String,
+  subtitle: Option<String>,
+  description: Option<String>,
+  category: String, "Category should be either ANLT, STOR, DTBS, CMPT, or CTNR"
+  product_url: Option<String>,
+  free_tier: Option<bool>,
+  free_trial: Option<bool>,
+  base_price: Option<f64>,
+  price_unit: Option<String>,
+  price_timeunit: Option<String>,
+  price_desc: Option<String>,
+  multi_pricing: Option<bool>,
 ```
 
-5. PUT /api/plans/ -> Update Plan based on Name
+5. PUT /api/products/ -> Update Plan based on Name
 
 - Body
 
 ```
-  pub title: String,
-  pub subtitle: Option<String>,
-  pub description: Option<String>,
-  pub category: Option<String>, "Category should be either ANLT, STOR, DTBS, CMPT, or CTNR"
-  pub product_url: Option<String>,
-  pub free_tier: Option<bool>,
-  pub free_trial: Option<bool>,
-  pub base_price: Option<f64>,
-  pub price_unit: Option<String>,
-  pub price_timeunit: Option<String>,
-  pub price_desc: Option<String>,
-  pub multi_pricing: Option<bool>,
+  title: String,
+  subtitle: Option<String>,
+  description: Option<String>,
+  category: Option<String>, "Category should be either ANLT, STOR, DTBS, CMPT, or CTNR"
+  product_url: Option<String>,
+  free_tier: Option<bool>,
+  free_trial: Option<bool>,
+  base_price: Option<f64>,
+  price_unit: Option<String>,
+  price_timeunit: Option<String>,
+  price_desc: Option<String>,
+  multi_pricing: Option<bool>,
 ```
