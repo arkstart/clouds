@@ -18,8 +18,7 @@ pub struct Host {
   pub frontend_support: Option<bool>,
   pub backend_support: Option<bool>,
   pub database_support: Option<bool>,
-  pub product_based: Option<bool>,
-  pub plan_based: Option<bool>
+  pub template: Option<String>
 }
 
 impl Host {
@@ -88,8 +87,7 @@ impl Host {
       &frontend_support.eq(&body.frontend_support),
       &backend_support.eq(&body.backend_support),
       &database_support.eq(&body.database_support),
-      &product_based.eq(&body.product_based),
-      &plan_based.eq(&body.plan_based)
+      &template.eq(&body.template),
     );
     diesel::insert_into(hosts).values(data).execute(conn)
   }
@@ -109,8 +107,7 @@ impl Host {
       frontend_support: body.frontend_support.clone(),
       backend_support: body.backend_support.clone(),
       database_support: body.database_support.clone(),
-      product_based: body.product_based.clone(),
-      plan_based: body.plan_based.clone()
+      template: body.template.clone()
     };
     diesel::update(hosts)
       .filter(name.eq(body.name.clone()))

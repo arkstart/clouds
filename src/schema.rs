@@ -4,13 +4,12 @@ table! {
         name -> Varchar,
         description -> Nullable<Varchar>,
         url -> Nullable<Varchar>,
+        always_free -> Nullable<Bool>,
         free_tier -> Nullable<Bool>,
         frontend_support -> Nullable<Bool>,
         backend_support -> Nullable<Bool>,
         database_support -> Nullable<Bool>,
-        product_based -> Nullable<Bool>,
-        plan_based -> Nullable<Bool>,
-        always_free -> Nullable<Bool>,
+        template -> Nullable<Varchar>,
     }
 }
 
