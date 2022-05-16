@@ -45,16 +45,24 @@ async fn get_host(path: web::Path<String>, pool: web::Data<PgPool>) -> HttpRespo
   }
 }
 
-
-
 #[post("/")]
 async fn insert_new_host(
   body: web::Json<request::HostRequest>,
   pool: web::Data<PgPool>,
 ) -> HttpResponse {
-  match model::Host::add(body, pool) {
-    Ok(res) => HttpResponse::Ok().body(format!("Affected Rows: {}", res)),
-    Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),
+  let body_template = body.template.clone().unwrap();
+  let host_template = model::Host::check_template(&body_template);
+
+  match host_template {
+    true => match model::Host::add(body, pool) {
+      Ok(res) => HttpResponse::Ok().body(format!("Affected Rows: {}", res)),
+      Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),
+    },
+
+    false => {
+      let error_message = "Template should be either Plan or Product".to_string();
+      ErrResponse::new_message(ErrType::BadRequest, error_message)
+    }
   }
 }
 
@@ -63,9 +71,24 @@ async fn update_host(
   body: web::Json<request::HostRequest>,
   pool: web::Data<PgPool>,
 ) -> HttpResponse {
-  match model::Host::update(body, pool) {
-    Ok(res) => HttpResponse::Ok().json(res),
-    Err(e) => ErrResponse::new(ErrType::BadRequest, e.to_string()),
+  let body_template = body.template.clone();
+  if let Some(tmplt) = body_template {
+    let host_template = model::Host::check_template(&tmplt);
+    match host_template {
+      true => match model::Host::update(body, pool) {
+        Ok(res) => HttpResponse::Ok().json(res),
+        Err(e) => ErrResponse::new(ErrType::BadRequest, e.to_string()),
+      },
+      false => {
+        let error_message = "Template should be either Plan or Product".to_string();
+        ErrResponse::new_message(ErrType::BadRequest, error_message)
+      }
+    }
+  } else {
+    match model::Host::update(body, pool) {
+      Ok(res) => HttpResponse::Ok().json(res),
+      Err(e) => ErrResponse::new(ErrType::BadRequest, e.to_string()),
+    }
   }
 }
 

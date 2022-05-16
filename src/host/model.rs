@@ -22,15 +22,20 @@ pub struct Host {
 }
 
 impl Host {
+  pub fn check_template(host_template: &str) -> bool {
+    let template_list = vec!["Plan", "Product"];
+    template_list.contains(&host_template)
+}
+
   // Set order by descending after we made the products endpoint
   pub fn get_all(pool: web::Data<PgPool>) -> QueryResult<Vec<Host>> {
     let conn = &pool.get().unwrap();
-    hosts::table.order(name.desc()).load::<Host>(conn)
+    hosts::table.order(name.asc()).load::<Host>(conn)
   }
 
   pub fn get_all_name(pool: web::Data<PgPool>) -> QueryResult<Vec<String>> {
     let conn = &pool.get().unwrap();
-    hosts::table.select(hosts::name).order(name.desc()).load::<String>(conn)
+    hosts::table.select(hosts::name).order(name.asc()).load::<String>(conn)
   }
 
   pub fn get_one(host_name: String, pool: web::Data<PgPool>) -> QueryResult<Host> {

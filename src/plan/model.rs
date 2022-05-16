@@ -46,7 +46,7 @@ pub struct Plan {
 impl Plan {
   pub fn get_all(pool: web::Data<PgPool>) -> QueryResult<Vec<Plan>> {
     let conn = &pool.get().unwrap();
-    plans::table.order(price.desc()).load::<Plan>(conn)
+    plans::table.order(price.asc()).load::<Plan>(conn)
   }
 
   pub fn get_one(plan_name: String, pool: web::Data<PgPool>) -> QueryResult<Plan> {
