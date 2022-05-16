@@ -34,7 +34,7 @@ impl Product {
 
     pub fn get_all(pool: web::Data<PgPool>) -> QueryResult<Vec<Product>> {
         let conn = &pool.get().unwrap();
-        products::table.load::<Product>(conn)
+        products::table.order(title.asc()).load::<Product>(conn)
     }
 
     pub fn get_one(product_name: String, pool: web::Data<PgPool>) -> QueryResult<Product> {

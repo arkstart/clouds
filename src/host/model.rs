@@ -18,20 +18,24 @@ pub struct Host {
   pub frontend_support: Option<bool>,
   pub backend_support: Option<bool>,
   pub database_support: Option<bool>,
-  pub product_based: Option<bool>,
-  pub plan_based: Option<bool>
+  pub template: Option<String>
 }
 
 impl Host {
+  pub fn check_template(host_template: &str) -> bool {
+    let template_list = vec!["Plan", "Product"];
+    template_list.contains(&host_template)
+}
+
   // Set order by descending after we made the products endpoint
   pub fn get_all(pool: web::Data<PgPool>) -> QueryResult<Vec<Host>> {
     let conn = &pool.get().unwrap();
-    hosts::table.order(name.desc()).load::<Host>(conn)
+    hosts::table.order(name.asc()).load::<Host>(conn)
   }
 
   pub fn get_all_name(pool: web::Data<PgPool>) -> QueryResult<Vec<String>> {
     let conn = &pool.get().unwrap();
-    hosts::table.select(hosts::name).order(name.desc()).load::<String>(conn)
+    hosts::table.select(hosts::name).order(name.asc()).load::<String>(conn)
   }
 
   pub fn get_one(host_name: String, pool: web::Data<PgPool>) -> QueryResult<Host> {
@@ -88,8 +92,7 @@ impl Host {
       &frontend_support.eq(&body.frontend_support),
       &backend_support.eq(&body.backend_support),
       &database_support.eq(&body.database_support),
-      &product_based.eq(&body.product_based),
-      &plan_based.eq(&body.plan_based)
+      &template.eq(&body.template),
     );
     diesel::insert_into(hosts).values(data).execute(conn)
   }
@@ -109,8 +112,7 @@ impl Host {
       frontend_support: body.frontend_support.clone(),
       backend_support: body.backend_support.clone(),
       database_support: body.database_support.clone(),
-      product_based: body.product_based.clone(),
-      plan_based: body.plan_based.clone()
+      template: body.template.clone()
     };
     diesel::update(hosts)
       .filter(name.eq(body.name.clone()))

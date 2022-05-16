@@ -12,6 +12,3 @@ CREATE TABLE IF NOT EXISTS hosts (
     product_based BOOLEAN,
     plan_based BOOLEAN
 )
-
-
-  
