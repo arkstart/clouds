@@ -24,6 +24,19 @@ async fn get_product(path: web::Path<String>, pool: web::Data<PgPool>) -> HttpRe
     }
 }
 
+#[get("/hosts/{host_name}")]
+async fn get_host_product(path: web::Path<String>, pool: web::Data<PgPool>) -> HttpResponse {
+    let host_name = path.into_inner();
+    if let Ok(id) = Host::get_id(host_name, pool.clone()) {
+        match model::Product::get_all_by_host(id, pool) {
+            Ok(res) => HttpResponse::Ok().json(res),
+            Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),
+        }
+    } else {
+        ErrResponse::new_message(ErrType::BadRequest, "Host name not found".to_string())
+    }
+}
+
 #[post("/")]
 async fn insert_new_product(
     body: web::Json<request::AddProductRequest>,
@@ -84,6 +97,7 @@ async fn update_product(
 pub fn route(config: &mut web::ServiceConfig) {
     config
         .service(get_all_product)
+        .service(get_host_product)
         .service(get_product)
         .service(insert_new_product)
         .service(update_product);
