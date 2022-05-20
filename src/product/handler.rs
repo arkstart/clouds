@@ -93,6 +93,36 @@ async fn update_product(
     }
 }
 
+#[put("/id/{product_id}")]
+async fn update_product_by_id(
+    path: web::Path<i32>,
+    body: web::Json<request::UpdateProductRequest>,
+    pool: web::Data<PgPool>,
+) -> HttpResponse {
+    let product_id = path.into_inner();
+
+    if let Some(category) = body.category.clone() {
+        let product_category = model::Product::check_category(&category);
+
+        match product_category {
+            true => match model::Product::update_by_id(product_id, body, pool) {
+                Ok(res) => HttpResponse::Ok().json(res),
+                Err(e) => ErrResponse::new(ErrType::BadRequest, e.to_string()),
+            },
+            false => {
+                let error_message =
+                    String::from("Category should be either ANLT, STOR, DTBS, CMPT, or CTNR");
+                ErrResponse::new_message(ErrType::BadRequest, error_message)
+            }
+        }
+    } else {
+        match model::Product::update_by_id(product_id, body, pool) {
+            Ok(res) => HttpResponse::Ok().json(res),
+            Err(e) => ErrResponse::new(ErrType::BadRequest, e.to_string()),
+        }
+    }
+}
+
 /// Routing for product
 pub fn route(config: &mut web::ServiceConfig) {
     config
@@ -100,5 +130,6 @@ pub fn route(config: &mut web::ServiceConfig) {
         .service(get_host_product)
         .service(get_product)
         .service(insert_new_product)
-        .service(update_product);
+        .service(update_product)
+        .service(update_product_by_id);
 }
