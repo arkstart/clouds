@@ -97,4 +97,30 @@ impl Product {
             .set(data)
             .get_result::<Product>(conn)
     }
+
+    pub fn update_by_id(
+        product_id: i32,
+        body: web::Json<UpdateProductRequest>,
+        pool: web::Data<PgPool>,
+    ) -> QueryResult<Product> {
+        let conn = &pool.get().unwrap();
+        let data = UpdateProductRequest {
+            title: body.title.clone(),
+            subtitle: body.subtitle.clone(),
+            description: body.description.clone(),
+            category: body.category.clone(),
+            product_url: body.product_url.clone(),
+            free_tier: body.free_tier.clone(),
+            free_trial: body.free_trial.clone(),
+            base_price: body.base_price.clone(),
+            price_unit: body.price_unit.clone(),
+            price_timeunit: body.price_timeunit.clone(),
+            price_desc: body.price_desc.clone(),
+            multi_pricing: body.multi_pricing.clone(),
+        };
+        diesel::update(products)
+            .filter(id.eq(product_id))
+            .set(data)
+            .get_result::<Product>(conn)
+    }
 }
