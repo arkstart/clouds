@@ -123,4 +123,18 @@ impl Product {
             .set(data)
             .get_result::<Product>(conn)
     }
+
+    pub fn filter(
+        param: web::Query<ProductFilterParam>,
+        pool: web::Data<PgPool>,
+    ) -> QueryResult<Vec<Product>> {
+        let mut query = products.into_boxed();
+
+        if let Some(product_category) = &param.category {
+            query = query.filter(category.eq(product_category));
+        }
+
+        let conn = &pool.get().unwrap();
+        query.get_results::<Product>(conn)
+    }
 }
