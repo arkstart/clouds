@@ -3,10 +3,21 @@ use crate::host::model::Host;
 use crate::lib::error::{ErrResponse, ErrType};
 use crate::product::{model, request};
 use actix_web::{get, post, put, web, HttpResponse};
+use diesel::QueryResult;
 
 #[get("/")]
-async fn get_all_product(pool: web::Data<PgPool>) -> HttpResponse {
-    let product_list = model::Product::get_all(pool);
+async fn get_all_product(
+    param: web::Query<request::ProductFilterParam>,
+    pool: web::Data<PgPool>,
+) -> HttpResponse {
+    let product_list: QueryResult<Vec<model::Product>>;
+
+    if param.category.is_some() {
+        product_list = model::Product::filter(param, pool);
+    } else {
+        product_list = model::Product::get_all(pool);
+    }
+
     match product_list {
         Ok(list) => HttpResponse::Ok().json(list),
         Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),

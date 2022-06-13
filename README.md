@@ -5,8 +5,7 @@
 ## A. Host
 
 1. GET /api/hosts/ -> Get All Host
-   Query Param (Optional)
-
+- Query Param for Filter (Optional)
 ```
     always_free: Bool,
     free_tier: Bool
@@ -16,17 +15,13 @@
 ```
 
 2. GET /api/hosts/{host_name} -> Get One Host
-
 - `{host_name}` Should be string
 
 3. GET /api/hosts/products/{host_name} -> Get All Product of the Host
-
 - `{host_name}` Should be string
 
 4. POST /api/hosts/ -> Add New Host
-
 - Body
-
 ```
   name: String,
   description: Option<String>,
@@ -40,9 +35,7 @@
 ```
 
 5. PUT /api/hosts/ -> Update Host based on Name
-
 - Body
-
 ```
   name: String,
   description: Option<String>,
@@ -59,17 +52,13 @@
 
 1. GET /api/plans/ -> Get All Plan
 2. GET /api/plans/{plan_name} -> Get One Plan
-
 - `{plan_name}` Should be string
 
 3. GET /api/plans/hosts/{host_name} -> Get All Plan of the Host
-
 - `{host_name}` Should be string
 
 4. POST /api/plans/ -> Add New Plan
-
 - Body
-
 ```
   host_name: String,
   name: Option<String>,
@@ -103,9 +92,7 @@
 ```
 
 5. PUT /api/plans/ -> Update Plan based on Name
-
 - Body
-
 ```
   name: Option<String>,
   description: Option<String>,
@@ -140,14 +127,22 @@
 ## C. Product
 
 1. GET /api/products/ -> Get All Product
-2. GET /api/products/{product_name} -> Get One Product
+- Query Param for Filter (Optional)
+```
+    host_id: Option<i32>,
+    category: Option<String>,
+    free_tier: Option<bool>,
+    free_trial: Option<bool>,
+    max_price: Option<f64>,
+    price_unit: Option<String>,
+    price_timeunit: Option<String>,
+```
 
+2. GET /api/products/{product_name} -> Get One Product
 - `{product_name}` Should be string
 
 3. POST /api/products/ -> Add New Product
-
 - Body
-
 ```
   host_name: String,
   title: String,
@@ -165,9 +160,7 @@
 ```
 
 5. PUT /api/products/ -> Update Plan based on Name
-
 - Body
-
 ```
   title: String,
   subtitle: Option<String>,

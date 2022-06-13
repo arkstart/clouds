@@ -123,4 +123,42 @@ impl Product {
             .set(data)
             .get_result::<Product>(conn)
     }
+
+    pub fn filter(
+        param: web::Query<ProductFilterParam>,
+        pool: web::Data<PgPool>,
+    ) -> QueryResult<Vec<Product>> {
+        let mut query = products.into_boxed();
+
+        if let Some(the_id) = &param.host_id {
+            query = query.filter(hosts_id.eq(the_id));
+        }
+        
+        if let Some(product_category) = &param.category {
+            query = query.filter(category.eq(product_category));
+        }
+
+        if let Some(is_free) = &param.free_tier {
+            query = query.filter(free_tier.eq(is_free));
+        }
+
+        if let Some(is_free) = &param.free_trial {
+            query = query.filter(free_trial.eq(is_free));
+        }
+
+        if let Some(price) = &param.max_price {
+            query = query.filter(base_price.le(price));
+        }
+
+        if let Some(unit) = &param.price_unit {
+            query = query.filter(price_unit.eq(unit));
+        }
+
+        if let Some(unit) = &param.price_timeunit {
+            query = query.filter(price_timeunit.eq(unit));
+        }
+
+        let conn = &pool.get().unwrap();
+        query.get_results::<Product>(conn)
+    }
 }

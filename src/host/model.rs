@@ -55,7 +55,7 @@ impl Host {
     param: web::Query<request::HostFilterRequestParam>,
     pool: web::Data<PgPool>,
   ) -> QueryResult<Vec<model::Host>> {
-    let mut query = hosts.filter(always_free.is_not_null()).into_boxed();
+    let mut query = hosts.into_boxed();
 
     if let Some(free) = param.always_free {
       query = query.filter(always_free.eq(free));
