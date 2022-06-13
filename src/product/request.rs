@@ -42,7 +42,7 @@ pub struct ProductFilterParam {
     pub category: Option<String>,
     pub free_tier: Option<bool>,
     pub free_trial: Option<bool>,
-    pub base_price: Option<f64>,
+    pub max_price: Option<f64>,
     pub price_unit: Option<String>,
     pub price_timeunit: Option<String>,
 }
