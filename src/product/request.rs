@@ -39,6 +39,7 @@ pub struct UpdateProductRequest {
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct ProductFilterParam {
+    pub host_id: Option<i32>,
     pub category: Option<String>,
     pub free_tier: Option<bool>,
     pub free_trial: Option<bool>,

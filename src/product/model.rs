@@ -130,6 +130,10 @@ impl Product {
     ) -> QueryResult<Vec<Product>> {
         let mut query = products.into_boxed();
 
+        if let Some(the_id) = &param.host_id {
+            query = query.filter(hosts_id.eq(the_id));
+        }
+        
         if let Some(product_category) = &param.category {
             query = query.filter(category.eq(product_category));
         }
