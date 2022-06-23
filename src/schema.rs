@@ -19,6 +19,7 @@ table! {
         hosts_id -> Int4,
         name -> Nullable<Varchar>,
         description -> Nullable<Varchar>,
+        plan_url -> Nullable<Varchar>,
         price -> Nullable<Int4>,
         price_unit -> Nullable<Varchar>,
         price_timeunit -> Nullable<Varchar>,
@@ -40,7 +41,6 @@ table! {
         analytic_unit -> Nullable<Varchar>,
         analytic_timeunit -> Nullable<Varchar>,
         analytic_desc -> Nullable<Varchar>,
-        plan_url -> Nullable<Varchar>,
     }
 }
 
