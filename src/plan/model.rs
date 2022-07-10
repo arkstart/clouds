@@ -14,7 +14,7 @@ pub struct Plan {
   pub hosts_id: i32,
   pub name: Option<String>,
   pub description: Option<String>,
-  
+  pub plan_url: Option<String>,
   pub price: Option<i32>,
   pub price_unit: Option<String>,
   pub price_timeunit: Option<String>,
@@ -40,7 +40,7 @@ pub struct Plan {
   pub analytic_unit: Option<String>,
   pub analytic_timeunit: Option<String>,
   pub analytic_desc: Option<String>,
-  pub plan_url: Option<String>,
+  
 }
 
 impl Plan {
