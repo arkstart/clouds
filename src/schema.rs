@@ -2,8 +2,8 @@ table! {
     hosts (id) {
         id -> Int4,
         name -> Varchar,
-        description -> Nullable<Varchar>,
-        url -> Nullable<Varchar>,
+        description -> Varchar,
+        url -> Varchar,
         always_free -> Nullable<Bool>,
         free_tier -> Nullable<Bool>,
         frontend_support -> Nullable<Bool>,
@@ -19,7 +19,6 @@ table! {
         hosts_id -> Int4,
         name -> Nullable<Varchar>,
         description -> Nullable<Varchar>,
-        plan_url -> Nullable<Varchar>,
         price -> Nullable<Int4>,
         price_unit -> Nullable<Varchar>,
         price_timeunit -> Nullable<Varchar>,
@@ -41,6 +40,14 @@ table! {
         analytic_unit -> Nullable<Varchar>,
         analytic_timeunit -> Nullable<Varchar>,
         analytic_desc -> Nullable<Varchar>,
+        plan_url -> Nullable<Varchar>,
+        currency -> Nullable<Varchar>,
+        discounted_price -> Nullable<Int4>,
+        free_domain -> Nullable<Bool>,
+        domain_extension -> Nullable<Varchar>,
+        database_benefit -> Nullable<Bool>,
+        page_data -> Nullable<Varchar>,
+        supported_languages -> Nullable<Varchar>,
     }
 }
 
