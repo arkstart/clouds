@@ -7,8 +7,3 @@ ALTER TABLE plans
     ADD COLUMN database_benefit BOOLEAN,
     ADD COLUMN page_data VARCHAR,
     ADD COLUMN supported_languages VARCHAR
-    
-    
-    
-
-    

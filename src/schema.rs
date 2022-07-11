@@ -47,7 +47,7 @@ table! {
         domain_extension -> Nullable<Varchar>,
         database_benefit -> Nullable<Bool>,
         page_data -> Nullable<Varchar>,
-        supported_languages -> Nullable<Varchar>,
+        // supported_languages -> Nullable<Varchar>,
     }
 }
 
