@@ -11,8 +11,8 @@ use serde::{Deserialize, Serialize};
 pub struct Host {
   pub id: i32,
   pub name: String,
-  pub description: Option<String>,
-  pub url: Option<String>,
+  pub description: String,
+  pub url: String,
   pub always_free: Option<bool>,
   pub free_tier: Option<bool>,
   pub frontend_support: Option<bool>,
@@ -83,10 +83,13 @@ impl Host {
   pub fn add(body: web::Json<request::HostRequest>, pool: web::Data<PgPool>) -> QueryResult<usize> {
     let conn = &pool.get().unwrap();
 
+    let desc = body.description.clone();
+    let body_url = body.url.clone();
+
     let data = (
       &name.eq(&body.name),
-      &description.eq(&body.description),
-      &url.eq(&body.url),
+      &description.eq(desc.unwrap()),
+      &url.eq(body_url.unwrap()),
       &always_free.eq(&body.always_free),
       &free_tier.eq(&body.free_tier),
       &frontend_support.eq(&body.frontend_support),

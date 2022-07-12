@@ -33,6 +33,12 @@ pub struct AddPlanRequest {
   pub analytic_timeunit: Option<String>,
   pub analytic_desc: Option<String>,
   pub plan_url: Option<String>,
+  pub currency: Option<String>,
+  pub discounted_price: Option<i32>,
+  pub free_domain: Option<bool>,
+  pub domain_extension: Option<String>,
+  pub database_benefit: Option<bool>,
+  pub page_data: Option<String>,
 }
 
 #[derive(Queryable, Debug, Clone, Deserialize, Serialize, AsChangeset)]
@@ -66,4 +72,10 @@ pub struct UpdatePlanRequest {
   pub analytic_timeunit: Option<String>,
   pub analytic_desc: Option<String>,
   pub plan_url: Option<String>,
+  pub currency: Option<String>,
+  pub discounted_price: Option<i32>,
+  pub free_domain: Option<bool>,
+  pub domain_extension: Option<String>,
+  pub database_benefit: Option<bool>,
+  pub page_data: Option<String>,
 }
