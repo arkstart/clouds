@@ -7,6 +7,7 @@ use actix_web::{get, post, put, web, HttpResponse};
 #[get("/")]
 async fn get_all_product(pool: web::Data<PgPool>) -> HttpResponse {
     let product_list = model::Product::get_all(pool);
+    println!("The product list on handler.rs is => {:?}", product_list);
     match product_list {
         Ok(list) => HttpResponse::Ok().json(list),
         Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),
