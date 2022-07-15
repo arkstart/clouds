@@ -22,8 +22,8 @@ async fn serve_web(address: String, pool: db::PgPool) -> std::io::Result<()> {
             .app_data(web::Data::new(pool.clone()))
             .route("/api/migration", web::post().to(migration::migrate))
             .service(web::scope("/api/hosts").configure(host::handler::route))
-            .service(web::scope("/api/products").configure(product::handler::route))
             .service(web::scope("/api/plans").configure(plan::handler::route))
+            .service(web::scope("/api/products").configure(product::handler::route))
     })
     .bind(address)?
     .run()
