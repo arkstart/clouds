@@ -5,7 +5,6 @@ use crate::schema::plans::dsl::*;
 use actix_web::web;
 use diesel::QueryResult;
 use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl};
-
 use serde::{Deserialize, Serialize};
 
 #[derive(Queryable, Debug, Clone, Deserialize, Serialize)]

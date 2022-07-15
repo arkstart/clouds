@@ -7,9 +7,8 @@ use actix_web::{get, post, put, web, HttpResponse};
 #[get("/")]
 async fn get_all_product(pool: web::Data<PgPool>) -> HttpResponse {
     let product_list = model::Product::get_all(pool);
-    println!("The product list on handler.rs is => {:?}", product_list);
     match product_list {
-        Ok(list) => HttpResponse::Ok().json(list),
+        Ok(list) => HttpResponse::Ok().keep_alive().json(list),
         Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),
     }
 }
@@ -30,7 +29,7 @@ async fn get_host_product(path: web::Path<String>, pool: web::Data<PgPool>) -> H
     let host_name = path.into_inner();
     if let Ok(id) = Host::get_id(host_name, pool.clone()) {
         match model::Product::get_all_by_host(id, pool) {
-            Ok(res) => HttpResponse::Ok().json(res),
+            Ok(res) => HttpResponse::Ok().body("hi stan"),
             Err(e) => ErrResponse::new(ErrType::InternalServerError, e.to_string()),
         }
     } else {
