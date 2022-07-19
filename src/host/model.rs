@@ -1,4 +1,5 @@
 use crate::db::PgPool;
+use crate::host::types;
 use crate::host::{model, request};
 use crate::schema::hosts;
 use crate::schema::hosts::dsl::*;
@@ -18,15 +19,10 @@ pub struct Host {
     pub frontend_support: Option<bool>,
     pub backend_support: Option<bool>,
     pub database_support: Option<bool>,
-    pub template: Option<String>,
+    pub template: Option<types::Template>,
 }
 
 impl Host {
-    pub fn check_template(host_template: &str) -> bool {
-        let template_list = vec!["Plan", "Product"];
-        template_list.contains(&host_template)
-    }
-
     // Set order by descending after we made the products endpoint
     pub fn get_all(pool: web::Data<PgPool>) -> QueryResult<Vec<Host>> {
         let conn = &pool.get().unwrap();
@@ -84,7 +80,7 @@ impl Host {
     }
 
     pub fn add(
-        body: web::Json<request::HostRequest>,
+        body: web::Json<request::AddHostRequest>,
         pool: web::Data<PgPool>,
     ) -> QueryResult<usize> {
         let conn = &pool.get().unwrap();
@@ -94,8 +90,8 @@ impl Host {
 
         let data = (
             &name.eq(&body.name),
-            &description.eq(desc.unwrap()),
-            &url.eq(body_url.unwrap()),
+            &description.eq(desc),
+            &url.eq(body_url),
             &always_free.eq(&body.always_free),
             &free_tier.eq(&body.free_tier),
             &frontend_support.eq(&body.frontend_support),
@@ -107,12 +103,12 @@ impl Host {
     }
 
     pub fn update(
-        body: web::Json<request::HostRequest>,
+        body: web::Json<request::UpdateHostRequest>,
         pool: web::Data<PgPool>,
     ) -> QueryResult<model::Host> {
         let conn = &pool.get().unwrap();
 
-        let data = request::HostRequest {
+        let data = request::UpdateHostRequest {
             name: body.name.clone(),
             description: body.description.clone(),
             url: body.url.clone(),
