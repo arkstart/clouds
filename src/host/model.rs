@@ -2,6 +2,7 @@ use crate::db::PgPool;
 use crate::host::{model, request};
 use crate::schema::hosts;
 use crate::schema::hosts::dsl::*;
+use crate::host::types;
 
 use actix_web::web;
 use diesel::{ExpressionMethods, QueryDsl, QueryResult, RunQueryDsl};
@@ -18,7 +19,7 @@ pub struct Host {
     pub frontend_support: Option<bool>,
     pub backend_support: Option<bool>,
     pub database_support: Option<bool>,
-    pub template: Option<String>,
+    pub template: Option<types::Template>,
 }
 
 impl Host {
@@ -89,8 +90,8 @@ impl Host {
 
         let data = (
             &name.eq(&body.name),
-            &description.eq(desc.unwrap()),
-            &url.eq(body_url.unwrap()),
+            &description.eq(desc),
+            &url.eq(body_url),
             &always_free.eq(&body.always_free),
             &free_tier.eq(&body.free_tier),
             &frontend_support.eq(&body.frontend_support),
