@@ -47,7 +47,7 @@ async fn get_host(path: web::Path<String>, pool: web::Data<PgPool>) -> HttpRespo
 
 #[post("/")]
 async fn insert_new_host(
-    body: web::Json<request::HostRequest>,
+    body: web::Json<request::AddHostRequest>,
     pool: web::Data<PgPool>,
 ) -> HttpResponse {
     match model::Host::add(body, pool) {
@@ -58,7 +58,7 @@ async fn insert_new_host(
 
 #[put("/")]
 async fn update_host(
-    body: web::Json<request::HostRequest>,
+    body: web::Json<request::UpdateHostRequest>,
     pool: web::Data<PgPool>,
 ) -> HttpResponse {
     match model::Host::update(body, pool) {

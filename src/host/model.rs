@@ -1,8 +1,8 @@
 use crate::db::PgPool;
+use crate::host::types;
 use crate::host::{model, request};
 use crate::schema::hosts;
 use crate::schema::hosts::dsl::*;
-use crate::host::types;
 
 use actix_web::web;
 use diesel::{ExpressionMethods, QueryDsl, QueryResult, RunQueryDsl};
@@ -80,7 +80,7 @@ impl Host {
     }
 
     pub fn add(
-        body: web::Json<request::HostRequest>,
+        body: web::Json<request::AddHostRequest>,
         pool: web::Data<PgPool>,
     ) -> QueryResult<usize> {
         let conn = &pool.get().unwrap();
@@ -103,12 +103,12 @@ impl Host {
     }
 
     pub fn update(
-        body: web::Json<request::HostRequest>,
+        body: web::Json<request::UpdateHostRequest>,
         pool: web::Data<PgPool>,
     ) -> QueryResult<model::Host> {
         let conn = &pool.get().unwrap();
 
-        let data = request::HostRequest {
+        let data = request::UpdateHostRequest {
             name: body.name.clone(),
             description: body.description.clone(),
             url: body.url.clone(),
