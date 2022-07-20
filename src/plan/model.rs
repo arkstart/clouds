@@ -1,4 +1,5 @@
 use crate::db::PgPool;
+use crate::lib::types::timeunit::TimeUnit;
 use crate::plan::request::*;
 use crate::schema::plans;
 use crate::schema::plans::dsl::*;
@@ -15,24 +16,24 @@ pub struct Plan {
     pub description: Option<String>,
     pub price: Option<i32>,
     pub price_unit: Option<String>,
-    pub price_timeunit: Option<String>,
+    pub price_timeunit: Option<TimeUnit>,
     pub price_desc: Option<String>,
     pub concurrent_build: Option<i32>,
     pub concurrent_build_unit: Option<String>,
-    pub concurrent_build_timeunit: Option<String>,
+    pub concurrent_build_timeunit: Option<TimeUnit>,
     pub concurrent_build_desc: Option<String>,
     pub bandwidth: Option<i32>,
     pub bandwidth_unit: Option<String>,
-    pub bandwidth_timeunit: Option<String>,
+    pub bandwidth_timeunit: Option<TimeUnit>,
     pub bandwidth_desc: Option<String>,
     pub build: Option<i32>,
     pub build_unit: Option<String>,
-    pub build_timeunit: Option<String>,
+    pub build_timeunit: Option<TimeUnit>,
     pub build_desc: Option<String>,
     pub analytic: Option<bool>,
     pub analytic_price: Option<i32>,
     pub analytic_unit: Option<String>,
-    pub analytic_timeunit: Option<String>,
+    pub analytic_timeunit: Option<TimeUnit>,
     pub analytic_desc: Option<String>,
     pub plan_url: Option<String>,
     pub currency: Option<String>,

@@ -1,3 +1,4 @@
+use crate::lib::types::timeunit::TimeUnit;
 use crate::schema::plans;
 use diesel::AsChangeset;
 use serde::{Deserialize, Serialize};
@@ -9,28 +10,28 @@ pub struct AddPlanRequest {
   pub description: Option<String>,
   pub price: Option<i32>,
   pub price_unit: Option<String>,
-  pub price_timeunit: Option<String>,
+  pub price_timeunit: Option<TimeUnit>,
   pub price_desc: Option<String>,
   // Concurrent Build
   pub concurrent_build: Option<i32>,
   pub concurrent_build_unit: Option<String>,
-  pub concurrent_build_timeunit: Option<String>,
+  pub concurrent_build_timeunit: Option<TimeUnit>,
   pub concurrent_build_desc: Option<String>,
   // Bandwidth
   pub bandwidth: Option<i32>,
   pub bandwidth_unit: Option<String>,
-  pub bandwidth_timeunit: Option<String>,
+  pub bandwidth_timeunit: Option<TimeUnit>,
   pub bandwidth_desc: Option<String>,
   // Build
   pub build: Option<i32>,
   pub build_unit: Option<String>,
-  pub build_timeunit: Option<String>,
+  pub build_timeunit: Option<TimeUnit>,
   pub build_desc: Option<String>,
   // Analytic
   pub analytic: Option<bool>,
   pub analytic_price: Option<i32>,
   pub analytic_unit: Option<String>,
-  pub analytic_timeunit: Option<String>,
+  pub analytic_timeunit: Option<TimeUnit>,
   pub analytic_desc: Option<String>,
   pub plan_url: Option<String>,
   pub currency: Option<String>,
