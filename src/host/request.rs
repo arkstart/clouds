@@ -1,4 +1,4 @@
-use crate::host::types::Template;
+use crate::lib::types::template::Template;
 use crate::schema::hosts;
 use diesel::AsChangeset;
 use serde::{Deserialize, Serialize};

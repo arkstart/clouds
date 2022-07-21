@@ -1,5 +1,5 @@
 use crate::db::PgPool;
-use crate::host::types;
+use crate::lib::types::template::Template;
 use crate::host::{model, request};
 use crate::schema::hosts;
 use crate::schema::hosts::dsl::*;
@@ -19,7 +19,7 @@ pub struct Host {
     pub frontend_support: Option<bool>,
     pub backend_support: Option<bool>,
     pub database_support: Option<bool>,
-    pub template: Option<types::Template>,
+    pub template: Option<Template>,
 }
 
 impl Host {

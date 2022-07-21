@@ -1,4 +1,5 @@
 use crate::db::PgPool;
+use crate::lib::types::timeunit::TimeUnit;
 use crate::product::request::*;
 use crate::schema::products;
 use crate::schema::products::dsl::*;
@@ -20,7 +21,7 @@ pub struct Product {
     pub free_trial: Option<bool>,
     pub base_price: Option<f64>,
     pub price_unit: Option<String>,
-    pub price_timeunit: Option<String>,
+    pub price_timeunit: Option<TimeUnit>,
     pub price_desc: Option<String>,
     pub multi_pricing: Option<bool>,
 }

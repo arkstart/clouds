@@ -6,29 +6,27 @@ use serde::{Deserialize, Serialize};
 use std::io::Write;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Copy, PartialEq, Eq, AsExpression, FromSqlRow)]
-pub enum Template {
-    Plan,
-    Product,
-    None,
+pub enum PageData {
+    Static,
+    Dynamic,
 }
 
-impl ToSql<Varchar, Pg> for Template {
+impl ToSql<Varchar, Pg> for PageData {
     fn to_sql<W: Write>(&self, out: &mut Output<W, Pg>) -> serialize::Result {
         let s = match *self {
-            Template::Plan => "Plan",
-            Template::Product => "Product",
-            Template::None => "",
+            PageData::Static => "Static",
+            PageData::Dynamic => "Dynamic",
         };
         <&str as ToSql<Varchar, Pg>>::to_sql(&s, out)
     }
 }
 
-impl FromSql<Varchar, Pg> for Template {
+impl FromSql<Varchar, Pg> for PageData {
     fn from_sql(bytes: Option<&[u8]>) -> deserialize::Result<Self> {
         match <String as FromSql<Varchar, Pg>>::from_sql(bytes)?.as_ref() {
-            "Plan" => Ok(Template::Plan),
-            "Product" => Ok(Template::Product),
-            _ => Ok(Template::None),
+            "Static" => Ok(PageData::Static),
+            "Dynamic" => Ok(PageData::Dynamic),
+            _ => Ok(PageData::Dynamic),
         }
     }
 }
