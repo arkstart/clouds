@@ -1,5 +1,5 @@
 use crate::db::PgPool;
-use crate::lib::types::{timeunit::TimeUnit, currency::Currency};
+use crate::lib::types::{currency::Currency, page_data::PageData, timeunit::TimeUnit};
 use crate::plan::request::*;
 use crate::schema::plans;
 use crate::schema::plans::dsl::*;
@@ -41,7 +41,7 @@ pub struct Plan {
     pub free_domain: Option<bool>,
     pub domain_extension: Option<String>,
     pub database_benefit: Option<bool>,
-    pub page_data: Option<String>,
+    pub page_data: Option<PageData>,
 }
 
 impl Plan {

@@ -1,4 +1,4 @@
-use crate::lib::types::{currency::Currency, timeunit::TimeUnit};
+use crate::lib::types::{currency::Currency, page_data::PageData, timeunit::TimeUnit};
 use crate::schema::plans;
 use diesel::AsChangeset;
 use serde::{Deserialize, Serialize};
@@ -39,7 +39,7 @@ pub struct AddPlanRequest {
     pub free_domain: Option<bool>,
     pub domain_extension: Option<String>,
     pub database_benefit: Option<bool>,
-    pub page_data: Option<String>,
+    pub page_data: Option<PageData>,
 }
 
 #[derive(Queryable, Debug, Clone, Deserialize, Serialize, AsChangeset)]
